@@ -1,0 +1,483 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2275778116E3E13B00A58944 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2275778016E3E13B00A58944 /* UIKit.framework */; };
+		2275778316E3E13B00A58944 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2275778216E3E13B00A58944 /* Foundation.framework */; };
+		2275778516E3E13B00A58944 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2275778416E3E13B00A58944 /* CoreGraphics.framework */; };
+		2275778B16E3E13B00A58944 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2275778916E3E13B00A58944 /* InfoPlist.strings */; };
+		2275778D16E3E13B00A58944 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2275778C16E3E13B00A58944 /* main.m */; };
+		2275779116E3E13B00A58944 /* JockeyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2275779016E3E13B00A58944 /* JockeyAppDelegate.m */; };
+		2275779316E3E13B00A58944 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2275779216E3E13B00A58944 /* Default.png */; };
+		2275779516E3E13B00A58944 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2275779416E3E13B00A58944 /* Default@2x.png */; };
+		2275779716E3E13B00A58944 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2275779616E3E13B00A58944 /* Default-568h@2x.png */; };
+		2275779A16E3E13B00A58944 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2275779816E3E13B00A58944 /* MainStoryboard_iPhone.storyboard */; };
+		2275779D16E3E13B00A58944 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2275779B16E3E13B00A58944 /* MainStoryboard_iPad.storyboard */; };
+		227577A016E3E13B00A58944 /* JockeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2275779F16E3E13B00A58944 /* JockeyViewController.m */; };
+		227577A816E3E13B00A58944 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227577A716E3E13B00A58944 /* SenTestingKit.framework */; };
+		227577A916E3E13B00A58944 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2275778016E3E13B00A58944 /* UIKit.framework */; };
+		227577AA16E3E13B00A58944 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2275778216E3E13B00A58944 /* Foundation.framework */; };
+		227577B216E3E13B00A58944 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 227577B016E3E13B00A58944 /* InfoPlist.strings */; };
+		227577B516E3E13B00A58944 /* JockeyJSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 227577B416E3E13B00A58944 /* JockeyJSTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		227577AB16E3E13B00A58944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2275777516E3E13B00A58944 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2275777C16E3E13B00A58944;
+			remoteInfo = JockeyJS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2275777D16E3E13B00A58944 /* JockeyJS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JockeyJS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2275778016E3E13B00A58944 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2275778216E3E13B00A58944 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2275778416E3E13B00A58944 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2275778816E3E13B00A58944 /* JockeyJS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JockeyJS-Info.plist"; sourceTree = "<group>"; };
+		2275778A16E3E13B00A58944 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2275778C16E3E13B00A58944 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2275778E16E3E13B00A58944 /* JockeyJS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JockeyJS-Prefix.pch"; sourceTree = "<group>"; };
+		2275778F16E3E13B00A58944 /* JockeyAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JockeyAppDelegate.h; sourceTree = "<group>"; };
+		2275779016E3E13B00A58944 /* JockeyAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JockeyAppDelegate.m; sourceTree = "<group>"; };
+		2275779216E3E13B00A58944 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		2275779416E3E13B00A58944 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		2275779616E3E13B00A58944 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		2275779916E3E13B00A58944 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		2275779C16E3E13B00A58944 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		2275779E16E3E13B00A58944 /* JockeyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JockeyViewController.h; sourceTree = "<group>"; };
+		2275779F16E3E13B00A58944 /* JockeyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JockeyViewController.m; sourceTree = "<group>"; };
+		227577A616E3E13B00A58944 /* JockeyJSTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JockeyJSTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		227577A716E3E13B00A58944 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		227577AF16E3E13B00A58944 /* JockeyJSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JockeyJSTests-Info.plist"; sourceTree = "<group>"; };
+		227577B116E3E13B00A58944 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		227577B316E3E13B00A58944 /* JockeyJSTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JockeyJSTests.h; sourceTree = "<group>"; };
+		227577B416E3E13B00A58944 /* JockeyJSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JockeyJSTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2275777A16E3E13B00A58944 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2275778116E3E13B00A58944 /* UIKit.framework in Frameworks */,
+				2275778316E3E13B00A58944 /* Foundation.framework in Frameworks */,
+				2275778516E3E13B00A58944 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		227577A216E3E13B00A58944 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				227577A816E3E13B00A58944 /* SenTestingKit.framework in Frameworks */,
+				227577A916E3E13B00A58944 /* UIKit.framework in Frameworks */,
+				227577AA16E3E13B00A58944 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2275777416E3E13B00A58944 = {
+			isa = PBXGroup;
+			children = (
+				2275778616E3E13B00A58944 /* JockeyJS */,
+				227577AD16E3E13B00A58944 /* JockeyJSTests */,
+				2275777F16E3E13B00A58944 /* Frameworks */,
+				2275777E16E3E13B00A58944 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2275777E16E3E13B00A58944 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2275777D16E3E13B00A58944 /* JockeyJS.app */,
+				227577A616E3E13B00A58944 /* JockeyJSTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2275777F16E3E13B00A58944 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2275778016E3E13B00A58944 /* UIKit.framework */,
+				2275778216E3E13B00A58944 /* Foundation.framework */,
+				2275778416E3E13B00A58944 /* CoreGraphics.framework */,
+				227577A716E3E13B00A58944 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2275778616E3E13B00A58944 /* JockeyJS */ = {
+			isa = PBXGroup;
+			children = (
+				2275778F16E3E13B00A58944 /* JockeyAppDelegate.h */,
+				2275779016E3E13B00A58944 /* JockeyAppDelegate.m */,
+				2275779816E3E13B00A58944 /* MainStoryboard_iPhone.storyboard */,
+				2275779B16E3E13B00A58944 /* MainStoryboard_iPad.storyboard */,
+				2275779E16E3E13B00A58944 /* JockeyViewController.h */,
+				2275779F16E3E13B00A58944 /* JockeyViewController.m */,
+				2275778716E3E13B00A58944 /* Supporting Files */,
+			);
+			path = JockeyJS;
+			sourceTree = "<group>";
+		};
+		2275778716E3E13B00A58944 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2275778816E3E13B00A58944 /* JockeyJS-Info.plist */,
+				2275778916E3E13B00A58944 /* InfoPlist.strings */,
+				2275778C16E3E13B00A58944 /* main.m */,
+				2275778E16E3E13B00A58944 /* JockeyJS-Prefix.pch */,
+				2275779216E3E13B00A58944 /* Default.png */,
+				2275779416E3E13B00A58944 /* Default@2x.png */,
+				2275779616E3E13B00A58944 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		227577AD16E3E13B00A58944 /* JockeyJSTests */ = {
+			isa = PBXGroup;
+			children = (
+				227577B316E3E13B00A58944 /* JockeyJSTests.h */,
+				227577B416E3E13B00A58944 /* JockeyJSTests.m */,
+				227577AE16E3E13B00A58944 /* Supporting Files */,
+			);
+			path = JockeyJSTests;
+			sourceTree = "<group>";
+		};
+		227577AE16E3E13B00A58944 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				227577AF16E3E13B00A58944 /* JockeyJSTests-Info.plist */,
+				227577B016E3E13B00A58944 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2275777C16E3E13B00A58944 /* JockeyJS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 227577B816E3E13B00A58944 /* Build configuration list for PBXNativeTarget "JockeyJS" */;
+			buildPhases = (
+				2275777916E3E13B00A58944 /* Sources */,
+				2275777A16E3E13B00A58944 /* Frameworks */,
+				2275777B16E3E13B00A58944 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JockeyJS;
+			productName = JockeyJS;
+			productReference = 2275777D16E3E13B00A58944 /* JockeyJS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		227577A516E3E13B00A58944 /* JockeyJSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 227577BB16E3E13B00A58944 /* Build configuration list for PBXNativeTarget "JockeyJSTests" */;
+			buildPhases = (
+				227577A116E3E13B00A58944 /* Sources */,
+				227577A216E3E13B00A58944 /* Frameworks */,
+				227577A316E3E13B00A58944 /* Resources */,
+				227577A416E3E13B00A58944 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				227577AC16E3E13B00A58944 /* PBXTargetDependency */,
+			);
+			name = JockeyJSTests;
+			productName = JockeyJSTests;
+			productReference = 227577A616E3E13B00A58944 /* JockeyJSTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2275777516E3E13B00A58944 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = Jockey;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = Corkboardme;
+			};
+			buildConfigurationList = 2275777816E3E13B00A58944 /* Build configuration list for PBXProject "JockeyJS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2275777416E3E13B00A58944;
+			productRefGroup = 2275777E16E3E13B00A58944 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2275777C16E3E13B00A58944 /* JockeyJS */,
+				227577A516E3E13B00A58944 /* JockeyJSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2275777B16E3E13B00A58944 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2275778B16E3E13B00A58944 /* InfoPlist.strings in Resources */,
+				2275779316E3E13B00A58944 /* Default.png in Resources */,
+				2275779516E3E13B00A58944 /* Default@2x.png in Resources */,
+				2275779716E3E13B00A58944 /* Default-568h@2x.png in Resources */,
+				2275779A16E3E13B00A58944 /* MainStoryboard_iPhone.storyboard in Resources */,
+				2275779D16E3E13B00A58944 /* MainStoryboard_iPad.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		227577A316E3E13B00A58944 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				227577B216E3E13B00A58944 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		227577A416E3E13B00A58944 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2275777916E3E13B00A58944 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2275778D16E3E13B00A58944 /* main.m in Sources */,
+				2275779116E3E13B00A58944 /* JockeyAppDelegate.m in Sources */,
+				227577A016E3E13B00A58944 /* JockeyViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		227577A116E3E13B00A58944 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				227577B516E3E13B00A58944 /* JockeyJSTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		227577AC16E3E13B00A58944 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2275777C16E3E13B00A58944 /* JockeyJS */;
+			targetProxy = 227577AB16E3E13B00A58944 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2275778916E3E13B00A58944 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2275778A16E3E13B00A58944 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2275779816E3E13B00A58944 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2275779916E3E13B00A58944 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		2275779B16E3E13B00A58944 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2275779C16E3E13B00A58944 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		227577B016E3E13B00A58944 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				227577B116E3E13B00A58944 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		227577B616E3E13B00A58944 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		227577B716E3E13B00A58944 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		227577B916E3E13B00A58944 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JockeyJS/JockeyJS-Prefix.pch";
+				INFOPLIST_FILE = "JockeyJS/JockeyJS-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		227577BA16E3E13B00A58944 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JockeyJS/JockeyJS-Prefix.pch";
+				INFOPLIST_FILE = "JockeyJS/JockeyJS-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		227577BC16E3E13B00A58944 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/JockeyJS.app/JockeyJS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JockeyJS/JockeyJS-Prefix.pch";
+				INFOPLIST_FILE = "JockeyJSTests/JockeyJSTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		227577BD16E3E13B00A58944 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/JockeyJS.app/JockeyJS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JockeyJS/JockeyJS-Prefix.pch";
+				INFOPLIST_FILE = "JockeyJSTests/JockeyJSTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2275777816E3E13B00A58944 /* Build configuration list for PBXProject "JockeyJS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				227577B616E3E13B00A58944 /* Debug */,
+				227577B716E3E13B00A58944 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		227577B816E3E13B00A58944 /* Build configuration list for PBXNativeTarget "JockeyJS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				227577B916E3E13B00A58944 /* Debug */,
+				227577BA16E3E13B00A58944 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		227577BB16E3E13B00A58944 /* Build configuration list for PBXNativeTarget "JockeyJSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				227577BC16E3E13B00A58944 /* Debug */,
+				227577BD16E3E13B00A58944 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2275777516E3E13B00A58944 /* Project object */;
+}
