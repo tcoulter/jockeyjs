@@ -12,7 +12,18 @@
 
 int main(int argc, char *argv[])
 {
+    int retVal;
+    
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([JockeyAppDelegate class]));
+        @try {
+            retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([JockeyAppDelegate class]));
+        }
+        @catch (NSException *exception) {
+            NSLog(@"CRASH: %@", exception);
+            NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
+            
+        }
     }
+    
+    return retVal;
 }

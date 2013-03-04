@@ -1,0 +1,3 @@
+[submodule "vendor/uicolor-utilities"]
+	path = vendor/uicolor-utilities
+	url = https://github.com/erica/uicolor-utilities.git

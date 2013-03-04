@@ -1,0 +1,89 @@
+<html>
+    <head>
+
+    	<!-- JQuery isn't needed for JockeyJS, just used in this example. --> 
+		<script type="text/javascript" src="jquery-1.9.1.js"></script>
+
+		<!-- Required includes. json2.js may not be required in specific instances. -->
+		<script type="text/javascript" src="json2.js"></script>
+		<script type="text/javascript" src="jockey.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+			
+				$("#toggle-fullscreen").on("click", function() {
+					Jockey.send("toggle-fullscreen");
+				});
+				
+				$("#toggle-fullscreen-slow").on("click", function() {
+					Jockey.send("toggle-fullscreen-with-callback", {
+						duration: 1.0
+					}, function() {
+						//setTimeout(function() {
+							alert("js callback after fullscreen");
+						//}, 0);
+					});
+				});
+				
+				$("#log").on("click", function() {
+					Jockey.send("log", {
+						color: $(document.body).css("background-color")
+					});
+				});
+				
+				
+				
+				Jockey.on("color-change", function(payload) {
+					$(document.body).css("background-color", payload.color);
+				});
+				
+			});
+		</script>
+    
+        <style>
+        	body {
+        		background-color: #FFF;
+        	}
+        
+            button {
+                font-size: 20px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            
+            button.show {
+            	width: 200px;
+            }
+            
+            button.hide {
+            	width: 80px;
+            }
+            
+            .gray {
+                color: #777;
+            }
+        </style>
+        
+    </head>
+<body>
+
+    <b>Send message from JS -> App</b>
+    <br><span class="gray">Remember: this is a UIWebView.</span>
+    <br><br>
+    
+    <button id="toggle-fullscreen" class="show">Toggle fullscreen</button>
+    <button id="toggle-fullscreen-slow" class="slow">Slow</button>
+    
+    <br>
+    
+    <button id="log">Log background color</button>
+    
+    <br><br>
+    
+    <b>Send message from App -> JS</b>
+    <br><span class="gray">Tap any of the color buttons below to change the web view's background color.</span>
+    
+        
+</body>
+</html>
+

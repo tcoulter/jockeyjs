@@ -24,6 +24,12 @@
 		227577AA16E3E13B00A58944 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2275778216E3E13B00A58944 /* Foundation.framework */; };
 		227577B216E3E13B00A58944 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 227577B016E3E13B00A58944 /* InfoPlist.strings */; };
 		227577B516E3E13B00A58944 /* JockeyJSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 227577B416E3E13B00A58944 /* JockeyJSTests.m */; };
+		227577BF16E3FAC800A58944 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 227577BE16E3FAC800A58944 /* index.html */; };
+		227577CA16E4078700A58944 /* jockey.js in Resources */ = {isa = PBXBuildFile; fileRef = 227577C816E4077100A58944 /* jockey.js */; };
+		227577CD16E4080800A58944 /* jquery-1.9.1.js in Resources */ = {isa = PBXBuildFile; fileRef = 227577CB16E407F100A58944 /* jquery-1.9.1.js */; };
+		227577D016E41CAC00A58944 /* json2.js in Resources */ = {isa = PBXBuildFile; fileRef = 227577CE16E41C9800A58944 /* json2.js */; };
+		22CF366D16E4407F00080B40 /* Jockey.m in Sources */ = {isa = PBXBuildFile; fileRef = 22CF366C16E4407F00080B40 /* Jockey.m */; };
+		22CF367116E4660200080B40 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 22CF367016E4660200080B40 /* UIColor-Expanded.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +66,14 @@
 		227577B116E3E13B00A58944 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		227577B316E3E13B00A58944 /* JockeyJSTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JockeyJSTests.h; sourceTree = "<group>"; };
 		227577B416E3E13B00A58944 /* JockeyJSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JockeyJSTests.m; sourceTree = "<group>"; };
+		227577BE16E3FAC800A58944 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		227577C816E4077100A58944 /* jockey.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jockey.js; path = js/jockey.js; sourceTree = "<group>"; };
+		227577CB16E407F100A58944 /* jquery-1.9.1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "jquery-1.9.1.js"; path = "js/jquery-1.9.1.js"; sourceTree = "<group>"; };
+		227577CE16E41C9800A58944 /* json2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = json2.js; path = js/json2.js; sourceTree = "<group>"; };
+		22CF366B16E4407F00080B40 /* Jockey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Jockey.h; path = includes/Jockey.h; sourceTree = "<group>"; };
+		22CF366C16E4407F00080B40 /* Jockey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Jockey.m; path = includes/Jockey.m; sourceTree = "<group>"; };
+		22CF366F16E4660200080B40 /* UIColor-Expanded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor-Expanded.h"; path = "vendor/uicolor-utilities/UIColor/UIColor-Expanded.h"; sourceTree = SOURCE_ROOT; };
+		22CF367016E4660200080B40 /* UIColor-Expanded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor-Expanded.m"; path = "vendor/uicolor-utilities/UIColor/UIColor-Expanded.m"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +107,7 @@
 				227577AD16E3E13B00A58944 /* JockeyJSTests */,
 				2275777F16E3E13B00A58944 /* Frameworks */,
 				2275777E16E3E13B00A58944 /* Products */,
+				22CF366E16E465C700080B40 /* vendor */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,12 +134,14 @@
 		2275778616E3E13B00A58944 /* JockeyJS */ = {
 			isa = PBXGroup;
 			children = (
+				227577C016E3FBA700A58944 /* includes */,
 				2275778F16E3E13B00A58944 /* JockeyAppDelegate.h */,
 				2275779016E3E13B00A58944 /* JockeyAppDelegate.m */,
 				2275779816E3E13B00A58944 /* MainStoryboard_iPhone.storyboard */,
 				2275779B16E3E13B00A58944 /* MainStoryboard_iPad.storyboard */,
 				2275779E16E3E13B00A58944 /* JockeyViewController.h */,
 				2275779F16E3E13B00A58944 /* JockeyViewController.m */,
+				227577BE16E3FAC800A58944 /* index.html */,
 				2275778716E3E13B00A58944 /* Supporting Files */,
 			);
 			path = JockeyJS;
@@ -133,6 +150,7 @@
 		2275778716E3E13B00A58944 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				227577C116E3FBB200A58944 /* js */,
 				2275778816E3E13B00A58944 /* JockeyJS-Info.plist */,
 				2275778916E3E13B00A58944 /* InfoPlist.strings */,
 				2275778C16E3E13B00A58944 /* main.m */,
@@ -161,6 +179,35 @@
 				227577B016E3E13B00A58944 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		227577C016E3FBA700A58944 /* includes */ = {
+			isa = PBXGroup;
+			children = (
+				22CF366B16E4407F00080B40 /* Jockey.h */,
+				22CF366C16E4407F00080B40 /* Jockey.m */,
+			);
+			name = includes;
+			sourceTree = "<group>";
+		};
+		227577C116E3FBB200A58944 /* js */ = {
+			isa = PBXGroup;
+			children = (
+				227577C816E4077100A58944 /* jockey.js */,
+				227577CE16E41C9800A58944 /* json2.js */,
+				227577CB16E407F100A58944 /* jquery-1.9.1.js */,
+			);
+			name = js;
+			sourceTree = "<group>";
+		};
+		22CF366E16E465C700080B40 /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				22CF366F16E4660200080B40 /* UIColor-Expanded.h */,
+				22CF367016E4660200080B40 /* UIColor-Expanded.m */,
+			);
+			name = vendor;
+			path = JockeyJS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,12 +282,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				227577D016E41CAC00A58944 /* json2.js in Resources */,
+				227577CD16E4080800A58944 /* jquery-1.9.1.js in Resources */,
+				227577CA16E4078700A58944 /* jockey.js in Resources */,
 				2275778B16E3E13B00A58944 /* InfoPlist.strings in Resources */,
 				2275779316E3E13B00A58944 /* Default.png in Resources */,
 				2275779516E3E13B00A58944 /* Default@2x.png in Resources */,
 				2275779716E3E13B00A58944 /* Default-568h@2x.png in Resources */,
 				2275779A16E3E13B00A58944 /* MainStoryboard_iPhone.storyboard in Resources */,
 				2275779D16E3E13B00A58944 /* MainStoryboard_iPad.storyboard in Resources */,
+				227577BF16E3FAC800A58944 /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +329,8 @@
 				2275778D16E3E13B00A58944 /* main.m in Sources */,
 				2275779116E3E13B00A58944 /* JockeyAppDelegate.m in Sources */,
 				227577A016E3E13B00A58944 /* JockeyViewController.m in Sources */,
+				22CF366D16E4407F00080B40 /* Jockey.m in Sources */,
+				22CF367116E4660200080B40 /* UIColor-Expanded.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +521,7 @@
 				227577BA16E3E13B00A58944 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		227577BB16E3E13B00A58944 /* Build configuration list for PBXNativeTarget "JockeyJSTests" */ = {
 			isa = XCConfigurationList;
@@ -476,6 +530,7 @@
 				227577BD16E3E13B00A58944 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

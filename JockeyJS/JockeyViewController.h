@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JockeyViewController : UIViewController
+@interface JockeyViewController : UIViewController <UIWebViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+
+- (IBAction)colorButtonPressed:(UIBarButtonItem *)sender;
+- (IBAction)refreshButtonPressed:(UIBarButtonItem *)sender;
+
+- (void)refresh;
+- (void)toggleFullscreen:(void(^)())complete withDuration:(NSTimeInterval)duration;
+- (void)enterFullscreen:(void(^)())complete withDuration:(NSTimeInterval)duration;
+- (void)exitFullscreen:(void(^)())complete withDuration:(NSTimeInterval)duration;
+
+@property (weak, nonatomic) IBOutlet UIToolbar *topToolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *bottomToolbar;
+
+@property (nonatomic, assign) BOOL fullscreenToggled;
 
 @end
