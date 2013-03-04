@@ -25,6 +25,12 @@
                                             <action selector="refreshButtonPressed:" destination="2" id="mLf-B6-bOg"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem width="173" style="plain" systemItem="fixedSpace" id="Rb1-2t-dfi"/>
+                                    <barButtonItem title="Show Image" id="fIo-se-33j">
+                                        <connections>
+                                            <action selector="showImageButtonPressed:" destination="2" id="Kc5-1r-onv"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ESe-QD-5og">
@@ -105,6 +111,7 @@
             <relationships>
                 <relationship kind="action" name="colorButtonPressed:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="action" name="refreshButtonPressed:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="showImageButtonPressed:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="bottomToolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="topToolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>

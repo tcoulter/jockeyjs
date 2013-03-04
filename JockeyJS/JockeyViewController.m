@@ -60,6 +60,20 @@
     [self refresh];
 }
 
+- (IBAction)showImageButtonPressed:(UIBarButtonItem *)sender {
+    NSDictionary *payload = @{@"feed": @"http://www.google.com/doodles/doodles.xml"};
+    
+    [Jockey send:@"show-image" withPayload:payload toWebView:_webView perform:^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Image loaded"
+                                                       message:@"callback in iOS from JS event"
+                                                      delegate:self
+                                              cancelButtonTitle:@"Score!"
+                                              otherButtonTitles:nil];
+        
+        [alert show];
+    }];
+}
+
 - (void)refresh {
     NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"];
     

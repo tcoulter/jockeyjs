@@ -14,6 +14,7 @@
 
 - (IBAction)colorButtonPressed:(UIBarButtonItem *)sender;
 - (IBAction)refreshButtonPressed:(UIBarButtonItem *)sender;
+- (IBAction)showImageButtonPressed:(UIBarButtonItem *)sender;
 
 - (void)refresh;
 - (void)toggleFullscreen:(void(^)())complete withDuration:(NSTimeInterval)duration;

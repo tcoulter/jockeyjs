@@ -17,7 +17,9 @@
     @synchronized(self) {
         if (!jockey) {
             jockey = [Jockey alloc];
+            jockey.messageCount = [NSNumber numberWithInteger:0];
             jockey.listeners = [[NSMutableDictionary alloc] init];
+            jockey.callbacks = [[NSMutableDictionary alloc] init];
         }
     }
     
@@ -53,20 +55,34 @@
 
 + (void)send:(NSString *)type withPayload:(id)payload toWebView:(UIWebView *)webView
 {
+    [self send:type withPayload:payload toWebView:webView perform:nil];
+}
+
++ (void)send:(NSString *)type withPayload:(id)payload toWebView:(UIWebView *)webView perform:(void (^)())complete {
+    Jockey *jockey = [Jockey getInstance];
+    
+    NSNumber *messageId = jockey.messageCount;
+    
+    if (complete != nil) {
+        [jockey.callbacks setValue:complete forKey:[messageId stringValue]];
+    }
+    
     NSError *err;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:payload options:NSJSONWritingPrettyPrinted error:&err];
-    
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-    NSString *javascript = [NSString stringWithFormat:@"Jockey.trigger(\"%@\", %@);", type, jsonString];
+    NSString *javascript = [NSString stringWithFormat:@"Jockey.trigger(\"%@\", %i, %@);", type, [messageId integerValue], jsonString];
     
     [webView stringByEvaluatingJavaScriptFromString:javascript];
+    
+    jockey.messageCount = [NSNumber numberWithInteger:[jockey.messageCount integerValue] + 1];
 }
 
 + (BOOL)webView:(UIWebView*)webView withUrl:(NSURL*)url
 {
     if ( [[url scheme] isEqualToString:@"jockey"] )
     {
+        NSString *eventType = [url host];
+        NSString *messageId = [[url path] substringFromIndex:1];
         NSString *query = [url query];
         NSString *jsonString = [query stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
@@ -75,7 +91,11 @@
                                                              options: NSJSONReadingMutableContainers
                                                                error: &error];
         
-        [[self getInstance] triggerEventFromWebView:webView withData:JSON];
+        if ([eventType isEqualToString:@"event"]) {
+            [[self getInstance] triggerEventFromWebView:webView withData:JSON];
+        } else if ([eventType isEqualToString:@"callback"]) {
+            [[self getInstance] triggerCallbackForMessage:[NSNumber numberWithInteger:[messageId integerValue]]];
+        }
         
         return NO;
     }
@@ -114,6 +134,16 @@
     NSString *javascript = [NSString stringWithFormat:@"Jockey.triggerCallback(\"%@\");", messageId];
     
     [webView stringByEvaluatingJavaScriptFromString:javascript];
+}
+
+- (void)triggerCallbackForMessage:(NSNumber *)messageId {
+    NSString *messageIdString = [messageId stringValue];
+    
+    void (^ callback)() = [_callbacks objectForKey:messageIdString];
+    
+    callback();
+    
+    [_callbacks removeObjectForKey:messageIdString];
 }
 
 @end

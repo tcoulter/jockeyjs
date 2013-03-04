@@ -8,6 +8,27 @@
 		callbacks: {},
 	
 		send: function(envelope, complete) {
+			this.dispatchMessage("event", envelope, complete);
+		},
+		
+		sendCallback: function(messageId) {
+			var envelope = Jockey.createEnvelope(messageId);
+		
+			this.dispatchMessage("callback", envelope, function() {});
+		},
+		
+		triggerCallback: function(id) {
+			var dispatcher = this;
+		
+			// Alerts within JS callbacks will sometimes freeze the iOS app.
+			// Let's wrap the callback in a timeout to prevent this.
+			setTimeout(function() {
+				dispatcher.callbacks[id]();
+			}, 0);
+		},
+		
+		// `type` can either be "event" or "callback"
+		dispatchMessage: function(type, envelope, complete) {
 			// We send the message by navigating the browser to a special URL.
 			// The iOS library will catch the navigation, prevent the UIWebView
 			// from continuing, and use the data in the URL to execute code
@@ -21,17 +42,7 @@
 				delete dispatcher.callbacks[envelope.id];
 			};
 			
-			window.location.href = "jockey://" + envelope.id + "/?" + encodeURIComponent(JSON.stringify(envelope));
-		},
-		
-		triggerCallback: function(id) {
-			var dispatcher = this;
-		
-			// Alerts within JS callbacks will sometimes freeze the iOS app.
-			// Let's wrap the callback in a timeout to prevent this.
-			setTimeout(function() {
-				dispatcher.callbacks[id]();
-			}, 0);
+			window.location.href = "jockey://" + type + "/" + envelope.id + "?" + encodeURIComponent(JSON.stringify(envelope));
 		}
 	};
 	
@@ -70,12 +81,7 @@
 			payload = payload || {};	
 			complete = complete || function() {};
 			
-			var envelope = {
-				id: this.messageCount,
-				type: type,
-				host: host, 
-				payload: payload
-			};	
+			var envelope = this.createEnvelope(this.messageCount, type, payload);
 			
 			this.dispatcher.send(envelope, complete);
 			
@@ -84,7 +90,9 @@
 		
 		// Called by the native application when events are sent to JS from the app.
 		// Will execute every function, FIFO order, that was attached to this event type.
-		trigger: function(type, json) {
+		trigger: function(type, messageId, json) {
+			var self = this;
+		
 			var listenerList = this.listeners[type] || [];
 			
 			var executedCount = 0;
@@ -93,7 +101,8 @@
 				executedCount += 1;
 				
 				if (executedCount >= listenerList.length) {
-					// Trigger callback;
+					self.dispatcher.sendCallback(messageId);
+					console.log("all called");
 				}
 			};
 			
@@ -117,6 +126,15 @@
 		// a given message.
 		triggerCallback: function(id) {
 			this.dispatcher.triggerCallback(id);
+		},
+		
+		createEnvelope: function(id, type, payload) {
+			return {
+				id: id,
+				type: type,
+				host: host, 
+				payload: payload
+			};	
 		}
 	};
 	

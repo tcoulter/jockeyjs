@@ -16,6 +16,7 @@ typedef void (^ JockeyExtendedHandler)(NSDictionary *payload, void (^complete)()
 + (void)on:(NSString*)type perform:(JockeyHandler)handler;
 + (void)on:(NSString*)type performExtended:(JockeyExtendedHandler)handler;
 + (void)send:(NSString*)type withPayload:(id)payload toWebView:(UIWebView*)webView;
++ (void)send:(NSString *)type withPayload:(id)payload toWebView:(UIWebView *)webView perform:(void(^)())complete;
 
 + (BOOL)webView:(UIWebView*)webView withUrl:(NSURL*)url;
 
@@ -25,7 +26,10 @@ typedef void (^ JockeyExtendedHandler)(NSDictionary *payload, void (^complete)()
 
 - (void)triggerEventFromWebView:(UIWebView*)webView withData:(NSDictionary*)envelope;
 - (void)triggerCallbackOnWebView:(UIWebView*)webView forMessage:(NSString*)messageId;
+- (void)triggerCallbackForMessage:(NSNumber*)messageId;
 
+@property (nonatomic, assign) NSNumber *messageCount;
 @property (strong, nonatomic) NSMutableDictionary *listeners;
+@property (strong, nonatomic) NSMutableDictionary *callbacks;
 
 @end
