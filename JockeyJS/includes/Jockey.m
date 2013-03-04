@@ -74,7 +74,7 @@
     
     [webView stringByEvaluatingJavaScriptFromString:javascript];
     
-    jockey.messageCount = [NSNumber numberWithInteger:[jockey.messageCount integerValue] + 1];
+    jockey.messageCount = [[NSNumber alloc] initWithInteger:[jockey.messageCount integerValue] + 1];
 }
 
 + (BOOL)webView:(UIWebView*)webView withUrl:(NSURL*)url
@@ -141,7 +141,9 @@
     
     void (^ callback)() = [_callbacks objectForKey:messageIdString];
     
-    callback();
+    if (callback != nil) {
+        callback();
+    }
     
     [_callbacks removeObjectForKey:messageIdString];
 }

@@ -28,7 +28,7 @@ typedef void (^ JockeyExtendedHandler)(NSDictionary *payload, void (^complete)()
 - (void)triggerCallbackOnWebView:(UIWebView*)webView forMessage:(NSString*)messageId;
 - (void)triggerCallbackForMessage:(NSNumber*)messageId;
 
-@property (nonatomic, assign) NSNumber *messageCount;
+@property (strong, atomic) NSNumber *messageCount;
 @property (strong, nonatomic) NSMutableDictionary *listeners;
 @property (strong, nonatomic) NSMutableDictionary *callbacks;
 
