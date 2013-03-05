@@ -18,7 +18,7 @@ JockeyJS will help your iOS app communicate with a Javascript application runnin
 ```objective-c
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-	return [Jockey webView:_webView withUrl:[request URL]];
+	return [Jockey webView:webView withUrl:[request URL]];
 }
 ```
 
