@@ -65,10 +65,6 @@ Jockey.on("event-name", function(payload, complete) {
     alert("Timeout over!");
     complete();
   }, 1000);
-  
-  // Note: You MUST return false in this case to tell Jockey you plan on calling
-  // the complete function on your own once events have finished.
-  return false;
 });
 ```
 

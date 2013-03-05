@@ -126,20 +126,19 @@
 				
 				if (executedCount >= listenerList.length) {
 					self.dispatcher.sendCallback(messageId);
-					console.log("all called");
 				}
 			};
 			
 			for (var index = 0; index < listenerList.length; index++) {
 				var listener = listenerList[index];
 				
-				var returnVal = listener(json, complete);
-				
-				// Allow the listener to return false to signify that 
-				// the handler will call the complete function later
-				// (perhaps, after a long running function or event).
-				if (returnVal !== false) {
+				// If it's a "sync" listener, we'll call the complete() function
+				// after it has finished. If it's async, we expect it to call complete().
+				if (listener.length == 1) {
+					listener(json);
 					complete();
+				} else {
+					listener(json, complete);
 				}
 			}
 			
