@@ -5,7 +5,7 @@ JockeyJS is an iOS and JS library that facilitates two-way communication between
 
 There's a desire for Android support and the Android Javascript dispatcher has been stubbed out. If you can contribute, please do!
 
-<img src="https://github.com/tcoulter/jockeyjs/blob/master/example.png" height="521px" width="277px" />
+<img src="example.png" height="521px" width="277px" />
 
 Setup
 -----
