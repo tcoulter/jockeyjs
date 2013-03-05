@@ -1,16 +1,16 @@
 JockeyJS
 ========
 
-JockeyJS is an iOS and JS library that facilitates two-way communication between iOS apps and Javascript apps running inside them. 
+JockeyJS is an iOS and JS library that facilitates two-way communication between iOS apps and JavaScript apps running inside them. 
 
-There's a desire for Android support and the Android Javascript dispatcher has been stubbed out. If you can contribute, please do!
+There's a desire for Android support and the Android JavaScript dispatcher has been stubbed out. If you can contribute, please do!
 
 <img src="example.png" height="521px" width="277px" />
 
 Setup
 -----
 
-JockeyJS will help your iOS app communicate with a Javascript application running inside a UIWebview.
+JockeyJS will help your iOS app communicate with a JavaScript application running inside a UIWebview.
 
 1. Download the latest JockeyJS into your iOS project directory.
 1. Add `JockeyJS/includes/Jockey.m` and `Jockey.h` to your project by right clicking inside XCode's Project Navigator and selecting "Add Files to \<YourProject\>"
@@ -26,26 +26,26 @@ JockeyJS will help your iOS app communicate with a Javascript application runnin
 
 You're all set! Now you can start passing events. 
 
-Sending events from iOS to Javascript
+Sending events from iOS to JavaScript
 -------------------------------------
 JockeyJS allows you to not only send events to the JavaScript application, but you can also receive a callback in the form of a block when all JavaScript listeners have finished executing. There are two methods available:
 
 ```objective-c
-// Send an event to Javascript, passing a payload. 
+// Send an event to JavaScript, passing a payload. 
 // payload can be an NSDictionary or NSArray, or anything that is serializable to JSON.
 // It can be nil.
 [Jockey send:@"event-name" withPayload:payload toWebView:webView];
 
 // If you want to send an event and also execute code within the iOS app when all
-// Javascript listeners have finished processing. 
+// JavaScript listeners have finished processing. 
 [Jockey send:@"event-name" withPayload:payload toWebView:webView perform:^{
   // Respond to callback.
 }];
 ```
 
-Receiving events from iOS in Javascript
+Receiving events from iOS in JavaScript
 ---------------------------------------
-Event listeners in Jockey are model after JQuery's event listeners (not far less featureful). To receive the above events in Javascript, simply add the following to your Javascript application:
+Event listeners in Jockey are model after JQuery's event listeners (not far less featureful). To receive the above events in JavaScript, simply add the following to your JavaScript application:
 
 ```javascript
 // Listen for an event from iOS and log the payload.
@@ -68,9 +68,9 @@ Jockey.on("event-name", function(payload, complete) {
 });
 ```
 
-Sending events from Javascript to iOS
+Sending events from JavaScript to iOS
 -------------------------------------
-Similar to iOS above, Jockey's Javascript library lets you pass events from your Javascript application to your iOS app.
+Similar to iOS above, Jockey's JavaScript library lets you pass events from your JavaScript application to your iOS app.
 
 ```javascript
 // Send an event to iOS.
@@ -90,18 +90,18 @@ Jockey.send("event-name", {
 });
 ```
 
-Receiving events from Javascript in iOS
+Receiving events from JavaScript in iOS
 ---------------------------------------
-Like Javascript above, Jockey's iOS library has methods to easily help you listen for events sent from your Javascript application:
+Like JavaScript above, Jockey's iOS library has methods to easily help you listen for events sent from your JavaScript application:
 
 ```objective-c
 
-// Listen for an event from Javascript and log the payload.
+// Listen for an event from JavaScript and log the payload.
 [Jockey on:@"event-name" perform:^(NSDictionary *payload) {
   NSLog(@"payload = %@", payload);
 }];
 
-// Listen for an event from Javascript, but don't notify the Javascript that 
+// Listen for an event from JavaScript, but don't notify the JavaScript that 
 // the listener has completed until an asynchronous function has finished.
 [Jockey on:@"event-name" performAsync:^(NSDictionary *payload, void (^complete)()) {
   // Do something asynchronously, then call the complete() method when finished.
