@@ -1,9 +1,9 @@
 JockeyJS
 ========
 
-JockeyJS is an iOS and JS library to facilitate two-way communication between iOS apps and Javascript apps running inside them. 
+JockeyJS is an iOS and JS library that facilitates two-way communication between iOS apps and Javascript apps running inside them. 
 
-There's a desire for Android support and the Javascript dispatcher has been stubbed out. If you can contribute, please do!
+There's a desire for Android support and the Android Javascript dispatcher has been stubbed out. If you can contribute, please do!
 
 ![Screenshot of example project](/example.png "Screenshot of example project")
 
@@ -14,8 +14,8 @@ JockeyJS will help your iOS app communicate with a Javascript application runnin
 
 1. Download the latest JockeyJS into your iOS project directory.
 1. Add `JockeyJS/includes/Jockey.m` and `Jockey.h` to your project by right clicking inside XCode's Project Navigator and selecting "Add Files to \<YourProject\>"
-1. In your web app, make sure to include `JockeyJS/js/jockey.js` as a script tag. 
-1. Last, set your ViewController (`JockeyViewController` in the example code) as the delegate of your UIWebView, then add the following code to your ViewController's `.m` file:
+1. In your web app, make sure to include `JockeyJS/js/jockey.js` as a script tag. Depending on desired browser support, you may also want to include `JockeyJS/js/json2.js`. 
+1. Last, set your ViewController as the delegate of your UIWebView (`JockeyViewController` in the example code), then add the following method to your ViewController's `.m` file:
    
 ```objective-c
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -110,6 +110,21 @@ Like Javascript above, Jockey's iOS library has methods to easily help you liste
 [Jockey on:@"event-name" performAsync:^(NSDictionary *payload, void (^complete)()) {
   // Do something asynchronously, then call the complete() method when finished.
 }];
+```
+
+Security
+--------
+You'll want to make sure your iOS app only responds to events sent from domains you control (for instance, if your UIWebView allows the user to navigate to other pages, you don't want those other pages to be able to communicate with or control your iOS app). To do this, simply add a check within the method you added to your ViewController during setup:
+
+```objective-c
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if ([[request URL] host] isEqualToString:@"mydomain.com") {
+        return [Jockey webView:webView withUrl:[request URL]];
+    }
+    
+    return TRUE;
+}
 ```
 
 
