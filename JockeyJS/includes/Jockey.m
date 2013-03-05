@@ -33,10 +33,10 @@
         complete();
     };
     
-    [self on:type performExtended:extended];
+    [self on:type performAsync:extended];
 }
 
-+ (void)on:(NSString *)type performExtended:(JockeyExtendedHandler)handler
++ (void)on:(NSString *)type performAsync:(JockeyAsyncHandler)handler
 {
     Jockey *instance = [Jockey getInstance];
     
@@ -124,7 +124,7 @@
         }
     };
     
-    for (JockeyExtendedHandler handler in listenerList) {
+    for (JockeyAsyncHandler handler in listenerList) {
         handler(payload, complete);
     }
 }

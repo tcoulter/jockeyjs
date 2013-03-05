@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 
 typedef void (^ JockeyHandler)(NSDictionary *payload);
-typedef void (^ JockeyExtendedHandler)(NSDictionary *payload, void (^complete)());
+typedef void (^ JockeyAsyncHandler)(NSDictionary *payload, void (^complete)());
 
 @interface Jockey : NSObject
 
 + (void)on:(NSString*)type perform:(JockeyHandler)handler;
-+ (void)on:(NSString*)type performExtended:(JockeyExtendedHandler)handler;
++ (void)on:(NSString*)type performAsync:(JockeyAsyncHandler)handler;
 + (void)send:(NSString*)type withPayload:(id)payload toWebView:(UIWebView*)webView;
 + (void)send:(NSString *)type withPayload:(id)payload toWebView:(UIWebView *)webView perform:(void(^)())complete;
 
