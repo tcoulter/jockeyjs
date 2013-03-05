@@ -18,7 +18,7 @@ JockeyJS will help your iOS app communicate with a Javascript application runnin
 ```objective-c
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-	return [Jockey webView:_webView withUrl:[request URL]];
+	return [Jockey webView:webView withUrl:[request URL]];
 }
 ```
 
@@ -105,7 +105,7 @@ Like Javascript above, Jockey's iOS library has methods to easily help you liste
 
 // Listen for an event from Javascript, but don't notify the Javascript that 
 // the listener has completed until an asynchronous function has finished.
-[Jockey on:@"event-name" performAsynchronous:^(NSDictionary *payload, void (^complete)()) {
+[Jockey on:@"event-name" performAsync:^(NSDictionary *payload, void (^complete)()) {
   // Do something asynchronously, then call the complete() method when finished.
 }];
 ```
