@@ -3,7 +3,7 @@ JockeyJS
 
 JockeyJS is an iOS and JS library to facilitate two-way communication between iOS apps and Javascript apps running inside them. 
 
-There's a desire for Android support and the Javascript dispatcher has been stubbed out. If you can contribute, please do!
+There's a desire for Android support and the Android Javascript dispatcher has been stubbed out. If you can contribute, please do!
 
 ![Screenshot of example project](/example.png "Screenshot of example project")
 
