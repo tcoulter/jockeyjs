@@ -112,4 +112,19 @@ Like Javascript above, Jockey's iOS library has methods to easily help you liste
 }];
 ```
 
+Security
+--------
+You'll want to make sure your iOS app only responds to events sent from domains you control (for instance, if your UIWebView allows the user to navigate to other pages, you don't want those other pages to be able to communicate with or control your iOS app). To do this, simply add a check within the method you added to your ViewController during setup:
+
+```objective-c
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if ([[request URL] host] isEqualToString:@"mydomain.com") {
+        return [Jockey webView:_webView withUrl:[request URL]];
+    }
+    
+    return TRUE;
+}
+```
+
 
