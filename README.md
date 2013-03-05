@@ -26,7 +26,7 @@ You're all set! Now you can start passing events.
 
 Sending events from iOS to Javascript
 -------------------------------------
-JockeyJS allows you to not only send events to the JavaScript application, but you can also receive a callback in the form of a block when all JavaScript listeners have finished executing. There are two methods avaiable:
+JockeyJS allows you to not only send events to the JavaScript application, but you can also receive a callback in the form of a block when all JavaScript listeners have finished executing. There are two methods available:
 
 ```objective-c
 // Send an event to Javascript, passing a payload. 
@@ -72,7 +72,7 @@ Jockey.on("event-name", function(payload, complete) {
 
 Sending events from Javascript to iOS
 -------------------------------------
-Similar to iOS above, Jockey's Javascript library has similar methods to help you pass events from your Javascript application to your iOS app.
+Similar to iOS above, Jockey's Javascript library lets you pass events from your Javascript application to your iOS app.
 
 ```javascript
 // Send an event to iOS.
