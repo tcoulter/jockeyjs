@@ -45,7 +45,7 @@ JockeyJS allows you to not only send events to the JavaScript application, but y
 
 Receiving events from iOS in JavaScript
 ---------------------------------------
-Event listeners in Jockey are model after JQuery's event listeners (not far less featureful). To receive the above events in JavaScript, simply add the following to your JavaScript application:
+Event listeners in Jockey are modeled after JQuery's event listeners (not far less featureful). To receive the above events in JavaScript, simply add the following to your JavaScript application:
 
 ```javascript
 // Listen for an event from iOS and log the payload.
