@@ -25,22 +25,27 @@
 
 #import "Jockey.h"
 
+@interface Jockey ()
++ (id)sharedInstance;
+
+- (void)triggerEventFromWebView:(UIWebView*)webView withData:(NSDictionary*)envelope;
+- (void)triggerCallbackOnWebView:(UIWebView*)webView forMessage:(NSString*)messageId;
+- (void)triggerCallbackForMessage:(NSNumber*)messageId;
+@end
+
 @implementation Jockey
 
-+ (Jockey*)getInstance
++ (id)sharedInstance
 {
-    static Jockey *jockey;
-    
-    @synchronized(self) {
-        if (!jockey) {
-            jockey = [Jockey alloc];
-            jockey.messageCount = [NSNumber numberWithInteger:0];
-            jockey.listeners = [[NSMutableDictionary alloc] init];
-            jockey.callbacks = [[NSMutableDictionary alloc] init];
-        }
-    }
-    
-    return jockey;
+    static dispatch_once_t once;
+    static Jockey *sharedInstance;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+        sharedInstance.messageCount = @0;
+        sharedInstance.listeners = [[NSMutableDictionary alloc] init];
+        sharedInstance.callbacks = [[NSMutableDictionary alloc] init];
+    });
+    return sharedInstance;
 }
 
 + (void)on:(NSString*)type perform:(JockeyHandler)handler
@@ -55,9 +60,9 @@
 
 + (void)on:(NSString *)type performAsync:(JockeyAsyncHandler)handler
 {
-    Jockey *instance = [Jockey getInstance];
+    Jockey *instance = [Jockey sharedInstance];
     
-    NSDictionary *listeners = [[Jockey getInstance] listeners];
+    NSDictionary *listeners = [[Jockey sharedInstance] listeners];
     
     NSMutableArray *listenerList = [listeners objectForKey:type];
     
@@ -76,7 +81,7 @@
 }
 
 + (void)send:(NSString *)type withPayload:(id)payload toWebView:(UIWebView *)webView perform:(void (^)())complete {
-    Jockey *jockey = [Jockey getInstance];
+    Jockey *jockey = [Jockey sharedInstance];
     
     NSNumber *messageId = jockey.messageCount;
     
@@ -91,7 +96,7 @@
     
     [webView stringByEvaluatingJavaScriptFromString:javascript];
     
-    jockey.messageCount = [[NSNumber alloc] initWithInteger:[jockey.messageCount integerValue] + 1];
+    jockey.messageCount = @([jockey.messageCount integerValue] + 1);
 }
 
 + (BOOL)webView:(UIWebView*)webView withUrl:(NSURL*)url
@@ -109,9 +114,9 @@
                                                                error: &error];
         
         if ([eventType isEqualToString:@"event"]) {
-            [[self getInstance] triggerEventFromWebView:webView withData:JSON];
+            [[self sharedInstance] triggerEventFromWebView:webView withData:JSON];
         } else if ([eventType isEqualToString:@"callback"]) {
-            [[self getInstance] triggerCallbackForMessage:[NSNumber numberWithInteger:[messageId integerValue]]];
+            [[self sharedInstance] triggerCallbackForMessage:@([messageId integerValue])];
         }
         
         return NO;
@@ -121,11 +126,10 @@
 
 - (void)triggerEventFromWebView:(UIWebView*)webView withData:(NSDictionary*)envelope
 {
-    NSDictionary *listeners = [[Jockey getInstance] listeners];
+    NSDictionary *listeners = [[Jockey sharedInstance] listeners];
     
     NSString *messageId = [envelope objectForKey:@"id"];
     NSString *type = [envelope objectForKey:@"type"];
-    //NSString *host = [envelope objectForKey:@"host"];
     
     NSDictionary *payload = [envelope objectForKey:@"payload"];
     
@@ -137,7 +141,7 @@
         executedCount += 1;
         
         if (executedCount >= [listenerList count]) {
-            [[Jockey getInstance] triggerCallbackOnWebView:webView forMessage:messageId];
+            [[Jockey sharedInstance] triggerCallbackOnWebView:webView forMessage:messageId];
         }
     };
     

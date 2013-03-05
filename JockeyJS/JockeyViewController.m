@@ -103,7 +103,7 @@
 }
 
 - (void)toggleFullscreen:(void(^)())complete withDuration:(NSTimeInterval)duration {
-    if (_fullscreenToggled == TRUE) {
+    if (_fullscreenToggled) {
         [self exitFullscreen:complete withDuration:duration];
     } else {
         [self enterFullscreen:complete withDuration:duration];
@@ -125,7 +125,7 @@
         }
     }];
     
-    _fullscreenToggled = TRUE;
+    _fullscreenToggled = YES;
 }
 
 - (void)exitFullscreen:(void(^)())complete withDuration:(NSTimeInterval)duration {
@@ -151,7 +151,7 @@
         }
     }];
     
-    _fullscreenToggled = FALSE;
+    _fullscreenToggled = NO;
 }
 
 

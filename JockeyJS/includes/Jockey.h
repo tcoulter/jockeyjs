@@ -37,14 +37,6 @@ typedef void (^ JockeyAsyncHandler)(NSDictionary *payload, void (^complete)());
 
 + (BOOL)webView:(UIWebView*)webView withUrl:(NSURL*)url;
 
-// Internal
-
-+ (Jockey*)getInstance;
-
-- (void)triggerEventFromWebView:(UIWebView*)webView withData:(NSDictionary*)envelope;
-- (void)triggerCallbackOnWebView:(UIWebView*)webView forMessage:(NSString*)messageId;
-- (void)triggerCallbackForMessage:(NSNumber*)messageId;
-
 @property (strong, atomic) NSNumber *messageCount;
 @property (strong, nonatomic) NSMutableDictionary *listeners;
 @property (strong, nonatomic) NSMutableDictionary *callbacks;
