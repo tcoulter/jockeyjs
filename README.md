@@ -56,7 +56,7 @@ You can also pass a slightly different function to `on()` in cases where your li
 
 ```javascript
 // Listen for an event from iOS, but don't notify iOS we've completed processing
-// until an event has been run (in this case a timeout).
+// until an asynchronous function has finished (in this case a timeout).
 Jockey.on("event-name", function(payload, complete) {
   // Example of event'ed handler.
   setTimeout(function() {
@@ -104,10 +104,9 @@ Like Javascript above, Jockey's iOS library has methods to easily help you liste
 }];
 
 // Listen for an event from Javascript, but don't notify the Javascript that 
-// the listener has completed until another function has finished. This call
-// is taken from the example app in the repo. 
-[Jockey on:@"toggle-fullscreen-with-callback" performWithCallback:^(NSDictionary *payload, void (^complete)()) {
-  [self toggleFullscreen:complete withDuration:duration];
+// the listener has completed until an asynchronous function has finished.
+[Jockey on:@"event-name" performAsynchronous:^(NSDictionary *payload, void (^complete)()) {
+  // Do something asynchronously, then call the complete() method when finished.
 }];
 ```
 
