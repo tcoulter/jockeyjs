@@ -120,7 +120,7 @@ You'll want to make sure your iOS app only responds to events sent from domains 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     if ([[request URL] host] isEqualToString:@"mydomain.com") {
-        return [Jockey webView:_webView withUrl:[request URL]];
+        return [Jockey webView:webView withUrl:[request URL]];
     }
     
     return TRUE;
