@@ -134,7 +134,7 @@
 				
 				// If it's a "sync" listener, we'll call the complete() function
 				// after it has finished. If it's async, we expect it to call complete().
-				if (listener.length == 1) {
+				if (listener.length <= 1) {
 					listener(json);
 					complete();
 				} else {
