@@ -27,7 +27,7 @@
 	// Non-accessible variable to send to the app, to ensure events only
 	// come from the desired host.
 	var host = window.location.host;
-
+  
 	var iOSDispatcher = {
 		callbacks: {},
 	
@@ -160,13 +160,38 @@
 			};	
 		}
 	};
+  
+	// i.e., on a Desktop browser.
+	var nullDispatcher = {
+		send: function() {},
+		triggerCallback: function() {},
+		sendCallback: function() {}
+	};
 	
 	// Dispatcher detection. Currently only supports iOS.
 	// Looking for equivalent Android implementation. 
-	Jockey.dispatcher = iOSDispatcher;
+	var i = 0,
+		iOS = false,
+		iDevice = ['iPad', 'iPhone', 'iPod'];
+		
+	alert(navigator.platform);
+
+	for ( ; i < iDevice.length ; i++ ) {
+		if (navigator.platform.indexOf(iDevice[i]) >= 0) {
+			iOS = true;
+			break;
+		}
+	}
+	
+	if (iOS) {
+		Jockey.dispatcher = iOSDispatcher;
+	} else {
+		Jockey.dispatcher = nullDispatcher;
+	}
 	
 	Jockey.iOSDispatcher = iOSDispatcher;
 	Jockey.AndroidDispatcher = AndroidDispatcher;
+	Jockey.nullDispatcher = nullDispatcher;
 	
 	window.Jockey = Jockey;
 })();
