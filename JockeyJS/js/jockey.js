@@ -174,8 +174,6 @@
 		iOS = false,
 		iDevice = ['iPad', 'iPhone', 'iPod'];
 		
-	alert(navigator.platform);
-
 	for ( ; i < iDevice.length ; i++ ) {
 		if (navigator.platform.indexOf(iDevice[i]) >= 0) {
 			iOS = true;
