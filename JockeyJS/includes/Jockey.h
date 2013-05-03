@@ -32,6 +32,7 @@ typedef void (^ JockeyAsyncHandler)(NSDictionary *payload, void (^complete)());
 
 + (void)on:(NSString*)type perform:(JockeyHandler)handler;
 + (void)on:(NSString*)type performAsync:(JockeyAsyncHandler)handler;
++ (void)off:(NSString *)type;
 + (void)send:(NSString*)type withPayload:(id)payload toWebView:(UIWebView*)webView;
 + (void)send:(NSString *)type withPayload:(id)payload toWebView:(UIWebView *)webView perform:(void(^)())complete;
 

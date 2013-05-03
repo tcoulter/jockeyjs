@@ -62,7 +62,7 @@
 {
     Jockey *instance = [Jockey sharedInstance];
     
-    NSDictionary *listeners = [[Jockey sharedInstance] listeners];
+    NSDictionary *listeners = [instance listeners];
     
     NSMutableArray *listenerList = [listeners objectForKey:type];
     
@@ -73,6 +73,13 @@
     }
     
     [listenerList addObject:handler];
+}
+
++ (void)off:(NSString *)type {
+    Jockey *instance = [Jockey sharedInstance];
+    
+    NSMutableDictionary *listeners = [instance listeners];
+    [listeners removeObjectForKey:type];
 }
 
 + (void)send:(NSString *)type withPayload:(id)payload toWebView:(UIWebView *)webView
