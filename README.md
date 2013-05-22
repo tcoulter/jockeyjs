@@ -1,7 +1,7 @@
 JockeyJS
 ========
 
-JockeyJS is an iOS and JS library that facilitates two-way communication between iOS apps and JavaScript apps running inside them. 
+JockeyJS is an iOS and JS library that facilitates two-way communication between iOS apps and JavaScript apps running inside them.
 
 There's a desire for Android support and the Android JavaScript dispatcher has been stubbed out. If you can contribute, please do!
 
@@ -14,9 +14,9 @@ JockeyJS will help your iOS app communicate with a JavaScript application runnin
 
 1. Download the latest JockeyJS into your iOS project directory.
 1. Add `JockeyJS/includes/Jockey.m` and `Jockey.h` to your project by right clicking inside XCode's Project Navigator and selecting "Add Files to \<YourProject\>"
-1. In your web app, make sure to include `JockeyJS/js/jockey.js` as a script tag. 
+1. In your web app, make sure to include `JockeyJS/js/jockey.js` as a script tag.
 1. Last, set your ViewController as the delegate of your UIWebView (`JockeyViewController` in the example code), then add the following method to your ViewController's `.m` file:
-   
+
 ```objective-c
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
@@ -24,24 +24,25 @@ JockeyJS will help your iOS app communicate with a JavaScript application runnin
 }
 ```
 
-You're all set! Now you can start passing events. 
+You're all set! Now you can start passing events.
 
 Sending events from iOS to JavaScript
 -------------------------------------
 JockeyJS allows you to not only send events to the JavaScript application, but you can also receive a callback in the form of a block when all JavaScript listeners have finished executing. There are two methods available:
 
 ```objective-c
-// Send an event to JavaScript, passing a payload. 
+// Send an event to JavaScript, passing a payload.
 // payload can be an NSDictionary or NSArray, or anything that is serializable to JSON.
 // It can be nil.
 [Jockey send:@"event-name" withPayload:payload toWebView:webView];
 
 // If you want to send an event and also execute code within the iOS app when all
-// JavaScript listeners have finished processing. 
+// JavaScript listeners have finished processing.
 [Jockey send:@"event-name" withPayload:payload toWebView:webView perform:^{
   // Respond to callback.
 }];
 ```
+
 
 Receiving events from iOS in JavaScript
 ---------------------------------------
@@ -68,6 +69,12 @@ Jockey.on("event-name", function(payload, complete) {
 });
 ```
 
+```javascript
+// Stop listening to an event from ios
+Jockey.off("event-name");
+```
+
+
 Sending events from JavaScript to iOS
 -------------------------------------
 Similar to iOS above, Jockey's JavaScript library lets you pass events from your JavaScript application to your iOS app.
@@ -76,12 +83,12 @@ Similar to iOS above, Jockey's JavaScript library lets you pass events from your
 // Send an event to iOS.
 Jockey.send("event-name");
 
-// Send an event to iOS, passing an optional payload. 
+// Send an event to iOS, passing an optional payload.
 Jockey.send("event-name", {
   key: "value"
 });
 
-// Send an event to iOS, pass an optional payload, and catch the callback when all the 
+// Send an event to iOS, pass an optional payload, and catch the callback when all the
 // iOS listeners have finished processing.
 Jockey.send("event-name", {
   key: "value"
@@ -101,12 +108,18 @@ Like JavaScript above, Jockey's iOS library has methods to easily help you liste
   NSLog(@"payload = %@", payload);
 }];
 
-// Listen for an event from JavaScript, but don't notify the JavaScript that 
+// Listen for an event from JavaScript, but don't notify the JavaScript that
 // the listener has completed until an asynchronous function has finished.
 [Jockey on:@"event-name" performAsync:^(NSDictionary *payload, void (^complete)()) {
   // Do something asynchronously, then call the complete() method when finished.
 }];
+
+// Stop listening for events from javascript, Jockey is a shared instance after first initialization
+// If you're webview controller is initialized and deinitialized, this is useful.
+[Jockey off:@"event-name"];
 ```
+
+
 
 Security
 --------
@@ -118,13 +131,13 @@ You'll want to make sure your iOS app only responds to events sent from domains 
     // Get current URL of the webview through Javascript.
     NSString *urlString = [_webView stringByEvaluatingJavaScriptFromString:@"window.location.href"];
     NSURL *currentURL = [NSURL URLWithString:urlString];
-    
+
     NSString *host = [currentURL host];
 
     if ([host isEqualToString:@"mydomain.com") {
         return [Jockey webView:webView withUrl:[request URL]];
     }
-    
+
     return TRUE;
 }
 ```
