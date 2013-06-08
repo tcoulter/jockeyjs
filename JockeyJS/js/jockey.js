@@ -189,7 +189,13 @@
 		}
 	}
 
-	if (iOS) {
+        // Detect UIWebview. In Mobile Safari proper, jockey urls cause a popup to
+	// be shown that says "Safari cannot open page because the URL is invalid."
+	// From here: http://stackoverflow.com/questions/4460205/detect-ipad-iphone-webview-via-javascript
+
+        var UIWebView = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent);
+
+	if (iOS && UIWebView) {
 		Jockey.dispatcher = iOSDispatcher;
 	} else {
 		Jockey.dispatcher = nullDispatcher;
