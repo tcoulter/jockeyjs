@@ -11,6 +11,16 @@ import android.webkit.WebView;
 public interface Jockey {
 
 	/**
+	 * An interface for the app to check the incoming source of an event.
+	 * 
+	 * @author Paul
+	 *
+	 */
+	public interface OnValidateListener {
+		void validate(String host) throws HostValidationException;
+	}
+
+	/**
 	 * Attaches a handler to this jockey instance so that is may receive events of the provided type
 	 * from a webpage
 	 * 
@@ -19,6 +29,11 @@ public interface Jockey {
 	 */
 	public void on(String type, JockeyHandler handler);
 	
+	/**
+	 * Removes a handler of the specified name
+	 * 
+	 * @param type
+	 */
 	public void off(String type);
 	
 	
@@ -73,7 +88,7 @@ public interface Jockey {
 	 * @param webView
 	 * @param messageId
 	 */
-	public void triggerCallbackOnWebView(WebView webView, String messageId);
+	public void triggerCallbackOnWebView(WebView webView, int messageId);
 	
 	/**
 	 * Configures the WebView to be able to receive and send events with Jockey
@@ -89,5 +104,7 @@ public interface Jockey {
 	 * @return
 	 */
 	public boolean handles(String string);
+	
+	public void setOnValidateListener(OnValidateListener listener);
 	
 }
