@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+    
+   
+	    <android.webkit.WebView
+	        android:id="@+id/webView"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent" /> 
+	        
+	    
+	    <LinearLayout
+	        android:id="@+id/colorsView"
+	        android:layout_width="match_parent"
+	        android:layout_height="50dp"
+	        android:layout_alignParentBottom="true" 
+	        android:weightSum="1.0"
+	        android:layout_weight="0.05"
+	        android:background="#333333"
+	        android:padding="10px">
+
+	        <ImageButton
+	            android:id="@+id/color_red"
+	            android:layout_weight="0.14"
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent"
+	            android:background="#FF0000" />
+	        
+	        <ImageButton
+	            android:id="@+id/color_green"
+	            android:layout_weight="0.14"
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent"
+	            android:background="#00FF00" />
+	        
+	        <ImageButton
+	            android:id="@+id/color_yellow"
+	            android:layout_weight="0.14"
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent"
+	            android:background="#FFFF00"/>
+	        
+	        <ImageButton
+	            android:id="@+id/color_orange"
+	            android:layout_weight="0.14"
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent"
+	            android:background="#E19B33" />
+	        
+	        <ImageButton
+	            android:id="@+id/color_pink"
+	            android:layout_weight="0.14"
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent"
+	            android:background="#FF33CC"
+	            />
+	        
+	        <ImageButton
+	            android:id="@+id/color_blue"
+	            android:layout_weight="0.14"
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent"
+	            android:background="#0000FF" />
+	        
+	        <ImageButton
+	            android:id="@+id/color_white"
+	            android:layout_weight="0.14"
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent"
+	            android:background="#FFFFFF" />
+
+	    </LinearLayout>
+
+    
+    
+
+</RelativeLayout>
