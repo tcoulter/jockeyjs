@@ -24,8 +24,6 @@ package com.jockeyjs;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
@@ -33,37 +31,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.util.SparseArray;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.google.gson.Gson;
-import com.jockeyjs.JockeyHandler.OnCompletedListener;
 
 public class JockeyService extends Service implements Jockey {
 
 	private final IBinder _binder = new JockeyBinder();
+	
+	private JockeyImpl _jockeyImpl = JockeyImpl.getDefault();
 
 	private final JockeyWebViewClient _webViewClient = new JockeyWebViewClient();
-
-	private int messageCount = 0;
-
-	private Map<String, JockeyHandler> _listeners = new HashMap<String, JockeyHandler>();
-	private SparseArray<JockeyCallback> _callbacks = new SparseArray<JockeyCallback>();
-
-	private Handler _handler = new Handler();
-
-	private OnValidateListener _onValidateListener;
-
-	//A default Callback that does nothing.
-	private static final JockeyCallback _DEFAULT = new JockeyCallback() {
-		@Override
-		public void call() {
-		}
-	};
 
 	/**
 	 * Convenience method for binding to the JockeyService
@@ -89,25 +70,25 @@ public class JockeyService extends Service implements Jockey {
 		return _binder;
 	}
 
-	@Override
-	public void setOnValidateListener(OnValidateListener listener) {
-		_onValidateListener = listener;
-	}
-
 	public class JockeyBinder extends Binder {
-
+	
 		public Jockey getService() {
 			return JockeyService.this;
 		}
 	}
 
+	@Override
+	public void setOnValidateListener(OnValidateListener listener) {
+		_jockeyImpl.setOnValidateListener(listener);
+	}
+
 	public void on(String type, JockeyHandler handler) {
-		_listeners.put(type, handler);
+		_jockeyImpl.on(type, handler);
 	}
 
 	@Override
 	public void off(String type) {
-		_listeners.remove(type);
+		_jockeyImpl.off(type);
 	}
 
 	public void send(String type, WebView toWebView) {
@@ -124,22 +105,7 @@ public class JockeyService extends Service implements Jockey {
 
 	public void send(String type, WebView toWebView, Object withPayload,
 			JockeyCallback complete) {
-		int messageId = messageCount;
-
-		if (complete != null) {
-			_callbacks.put(messageId, complete);
-		}
-
-		if (withPayload != null) {
-			Gson gson = new Gson();
-			withPayload = gson.toJson(withPayload);
-		}
-
-		String url = String.format("javascript:Jockey.trigger(\"%s\", %d, %s)",
-				type, messageId, withPayload);
-		toWebView.loadUrl(url);
-
-		++messageCount;
+		_jockeyImpl.send(type, toWebView, withPayload, complete);
 	}
 
 	public void triggerCallbackOnWebView(WebView webView, int messageId) {
@@ -183,9 +149,9 @@ public class JockeyService extends Service implements Jockey {
 
 			if (parts.length > 0) {
 				if (host.equals("event")) {
-					JockeyService.this.triggerEventFromWebView(view, payload);
+					_jockeyImpl.triggerEventFromWebView(view, payload);
 				} else if (host.equals("callback")) {
-					JockeyService.this.triggerCallbackForMessage(Integer
+					_jockeyImpl.triggerCallbackForMessage(Integer
 							.parseInt(parts[0]));
 				}
 			}
@@ -194,7 +160,7 @@ public class JockeyService extends Service implements Jockey {
 
 	@SuppressLint("SetJavaScriptEnabled")
 	public void configure(WebView webView) {
-		webView.getSettings().setJavaScriptEnabled(true);
+		_jockeyImpl.configure(webView);
 		webView.setWebViewClient(this.getWebViewClient());
 	}
 
@@ -206,45 +172,12 @@ public class JockeyService extends Service implements Jockey {
 	
 
 	private void validateHost(String host) throws HostValidationException {
-		if (_onValidateListener != null)
-			_onValidateListener.validate(host);
+		_jockeyImpl.validate(host);
 	}
 
 	@Override
 	public boolean handles(String eventName) {
-		return _listeners.containsKey(eventName);
-	}
-
-	private void triggerEventFromWebView(final WebView webView,
-			JockeyWebViewPayload envelope) {
-		final int messageId = envelope.id;
-		String type = envelope.type;
-
-		if (this.handles(type)) {
-			JockeyHandler handler = _listeners.get(type);
-
-			handler.perform(envelope.payload, new OnCompletedListener() {
-				@Override
-				public void onCompleted() {
-					_handler.post(new Runnable() {
-						@Override
-						public void run() {
-							triggerCallbackOnWebView(webView, messageId);
-						}
-					});
-				}
-			});
-		}
-	}
-
-	private void triggerCallbackForMessage(int messageId) {
-			try {
-				JockeyCallback complete = _callbacks.get(messageId, _DEFAULT);
-				complete.call();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			_callbacks.remove(messageId);
+		return _jockeyImpl.handles(eventName);
 	}
 
 }
