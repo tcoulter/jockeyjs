@@ -29,14 +29,11 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.DialogInterface;
-import android.content.ServiceConnection;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,8 +52,7 @@ import com.jockeyjs.Jockey;
 import com.jockeyjs.JockeyAsyncHandler;
 import com.jockeyjs.JockeyCallback;
 import com.jockeyjs.JockeyHandler;
-import com.jockeyjs.JockeyService;
-import com.jockeyjs.JockeyService.JockeyBinder;
+import com.jockeyjs.JockeyImpl;
 
 public class MainActivity extends Activity {
 
@@ -66,38 +62,7 @@ public class MainActivity extends Activity {
 	public boolean isFullscreen = false;
 	
 	private Jockey jockey;
-	private boolean _bound;
 	
-	private ServiceConnection _connection = new ServiceConnection() {
-		
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			_bound = false;
-		}
-		
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			JockeyBinder binder = (JockeyBinder) service;
-			jockey = binder.getService();
-
-			jockey.configure(webView);
-			setJockeyEvents();
-			_bound = true;
-			
-			webView.setWebChromeClient(new WebChromeClient() {
-				@Override
-				public boolean onJsAlert(WebView view, String url, String message,
-						JsResult result) {
-					Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-					result.confirm();
-					return true;
-				}
-			});
-			webView.loadUrl("file:///android_asset/index.html");
-		}
-	};
-
-	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -147,17 +112,29 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		JockeyService.bind(this, _connection);
+		
+		jockey = JockeyImpl.getDefault();
+		
+		jockey.configure(webView);
+		
+		setJockeyEvents();
+
+		webView.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public boolean onJsAlert(WebView view, String url, String message,
+					JsResult result) {
+				Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+				result.confirm();
+				return true;
+			}
+		});
+		
+		webView.loadUrl("file:///android_asset/index.html");
 	}
 	
 	@Override
 	protected void onStop() {
 		super.onStop();
-		
-		if (_bound) {
-			JockeyService.unbind(this, _connection);
-			_bound = false;
-		}
 	}
 
 	@Override
@@ -185,7 +162,6 @@ public class MainActivity extends Activity {
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									// TODO Auto-generated method stub
 								}
 							});
 					alert.show();
@@ -231,8 +207,6 @@ public class MainActivity extends Activity {
 	}
 
 	public void toggleFullscreen() {
-		// TODO Auto-generated method stub
-		
 		Window w = getWindow();
 		
 		if (isFullscreen) {

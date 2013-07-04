@@ -22,30 +22,24 @@
  ******************************************************************************/
 package com.jockeyjs;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 
-import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
-import com.google.gson.Gson;
 
 public class JockeyService extends Service implements Jockey {
 
 	private final IBinder _binder = new JockeyBinder();
 	
 	private JockeyImpl _jockeyImpl = JockeyImpl.getDefault();
-
-	private final JockeyWebViewClient _webViewClient = new JockeyWebViewClient();
-
+	
+//	private JockeyWebViewClient _webViewClient;
+	
 	/**
 	 * Convenience method for binding to the JockeyService
 	 * 
@@ -59,10 +53,6 @@ public class JockeyService extends Service implements Jockey {
 
 	public static void unbind(Context context, ServiceConnection connection) {
 		context.unbindService(connection);
-	}
-
-	protected WebViewClient getWebViewClient() {
-		return _webViewClient;
 	}
 
 	@Override
@@ -109,70 +99,11 @@ public class JockeyService extends Service implements Jockey {
 	}
 
 	public void triggerCallbackOnWebView(WebView webView, int messageId) {
-		String url = String.format("javascript:Jockey.triggerCallback(\"%d\")",
-				messageId);
-		webView.loadUrl(url);
+		_jockeyImpl.triggerCallbackOnWebView(webView, messageId);
 	}
 
-	@SuppressLint("SetJavaScriptEnabled")
-	public class JockeyWebViewClient extends WebViewClient {
-		@Override
-		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			try {
-				URI uri = new URI(url);
-
-				if (isJockeyScheme(uri)) {
-					processUri(view, uri);
-					return true;
-				}
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			} catch (HostValidationException e) {
-				e.printStackTrace();
-				Log.e("Jockey", "The source of the event could not be validated!");
-			}
-			return false;
-		}
-
-		private boolean isJockeyScheme(URI uri) {
-			return uri.getScheme().equals("jockey")
-					&& !uri.getQuery().equals("");
-		}
-
-		private void processUri(WebView view, URI uri) throws HostValidationException {
-			String[] parts = uri.getPath().replaceAll("^\\/", "").split("/");
-			String host = uri.getHost();
-			Gson gson = new Gson();
-
-			JockeyWebViewPayload payload = checkPayload(gson.fromJson(
-					uri.getQuery(), JockeyWebViewPayload.class));
-
-			if (parts.length > 0) {
-				if (host.equals("event")) {
-					_jockeyImpl.triggerEventFromWebView(view, payload);
-				} else if (host.equals("callback")) {
-					_jockeyImpl.triggerCallbackForMessage(Integer
-							.parseInt(parts[0]));
-				}
-			}
-		}
-	}
-
-	@SuppressLint("SetJavaScriptEnabled")
 	public void configure(WebView webView) {
 		_jockeyImpl.configure(webView);
-		webView.setWebViewClient(this.getWebViewClient());
-	}
-
-	public JockeyWebViewPayload checkPayload(JockeyWebViewPayload fromJson) throws HostValidationException {
-		validateHost(fromJson.host);
-		return fromJson;
-	}
-	
-	
-
-	private void validateHost(String host) throws HostValidationException {
-		_jockeyImpl.validate(host);
 	}
 
 	@Override

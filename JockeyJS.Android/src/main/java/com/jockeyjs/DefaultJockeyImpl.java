@@ -1,31 +1,12 @@
 package com.jockeyjs;
 
-import android.annotation.SuppressLint;
 import android.webkit.WebView;
 
 import com.google.gson.Gson;
 
-@SuppressLint("SetJavaScriptEnabled")
 public class DefaultJockeyImpl extends JockeyImpl {
 	
-
 	private int messageCount = 0;
-
-	@Override
-	public void send(String type, WebView toWebView) {
-		send(type, toWebView, null);
-	}
-
-	@Override
-	public void send(String type, WebView toWebView, Object withPayload) {
-		send(type, toWebView, withPayload, null);
-	}
-
-	@Override
-	public void send(String type, WebView toWebView, JockeyCallback complete) {
-		send(type, toWebView, null, complete);
-
-	}
 
 	@Override
 	public void send(String type, WebView toWebView, Object withPayload,
@@ -46,7 +27,6 @@ public class DefaultJockeyImpl extends JockeyImpl {
 		toWebView.loadUrl(url);
 
 		++messageCount;
-
 	}
 
 	@Override
@@ -56,8 +36,4 @@ public class DefaultJockeyImpl extends JockeyImpl {
 		webView.loadUrl(url);
 	}
 
-	@Override
-	public void configure(WebView webView) {
-		webView.getSettings().setJavaScriptEnabled(true);
-	}
 }

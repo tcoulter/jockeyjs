@@ -3,6 +3,7 @@ package com.jockeyjs;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.util.SparseArray;
 import android.webkit.WebView;
@@ -25,6 +26,28 @@ public abstract class JockeyImpl implements Jockey {
 	private OnValidateListener _onValidateListener;
 	
 	private Handler _handler = new Handler();
+	
+	private final JockeyWebViewClient _client;
+	
+	public JockeyImpl() {
+		_client = new JockeyWebViewClient(this);
+	}
+	
+	@Override
+	public void send(String type, WebView toWebView) {
+		send(type, toWebView, null);
+	}
+
+	@Override
+	public void send(String type, WebView toWebView, Object withPayload) {
+		send(type, toWebView, withPayload, null);
+	}
+
+	@Override
+	public void send(String type, WebView toWebView, JockeyCallback complete) {
+		send(type, toWebView, null, complete);
+
+	}
 	
 	@Override
 	public void on(String type, JockeyHandler handler) {
@@ -79,15 +102,27 @@ public abstract class JockeyImpl implements Jockey {
 	
 	
 	public void validate(String host) throws HostValidationException {
-		if (_onValidateListener != null)
-			_onValidateListener.validate(host);
+		if (_onValidateListener != null && !_onValidateListener.validate(host)) {
+			throw new HostValidationException();
+		}
 	}
 	
 	@Override
 	public void setOnValidateListener(OnValidateListener listener) {
 		_onValidateListener = listener;
 	}
+
 	
+	@SuppressLint("SetJavaScriptEnabled")
+	@Override
+	public void configure(WebView webView) {
+		webView.getSettings().setJavaScriptEnabled(true);
+		webView.setWebViewClient(this.getWebViewClient());
+	}
+
+	private JockeyWebViewClient getWebViewClient() {
+		return this._client;
+	}
 	
 	public static JockeyImpl getDefault() {
 		return new DefaultJockeyImpl();

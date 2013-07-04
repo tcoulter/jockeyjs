@@ -39,7 +39,7 @@ public interface Jockey {
 	 *
 	 */
 	public interface OnValidateListener {
-		void validate(String host) throws HostValidationException;
+		boolean validate(String host);
 	}
 
 	/**
