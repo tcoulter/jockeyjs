@@ -43,16 +43,16 @@ public interface Jockey {
 	}
 
 	/**
-	 * Attaches a handler to this jockey instance so that is may receive events of the provided type
+	 * Attaches one or more handlers to this jockey instance so that is may receive events of the provided type
 	 * from a webpage
 	 * 
 	 * @param type
 	 * @param handler
 	 */
-	public void on(String type, JockeyHandler handler);
+	public void on(String type, JockeyHandler ... handler);
 	
 	/**
-	 * Removes a handler of the specified name
+	 * Removes all handlers of the specified name
 	 * 
 	 * @param type
 	 */

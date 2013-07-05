@@ -38,8 +38,6 @@ public class JockeyService extends Service implements Jockey {
 	
 	private JockeyImpl _jockeyImpl = JockeyImpl.getDefault();
 	
-//	private JockeyWebViewClient _webViewClient;
-	
 	/**
 	 * Convenience method for binding to the JockeyService
 	 * 
@@ -72,7 +70,7 @@ public class JockeyService extends Service implements Jockey {
 		_jockeyImpl.setOnValidateListener(listener);
 	}
 
-	public void on(String type, JockeyHandler handler) {
+	public void on(String type, JockeyHandler ... handler) {
 		_jockeyImpl.on(type, handler);
 	}
 
