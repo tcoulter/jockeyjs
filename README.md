@@ -1,7 +1,7 @@
 JockeyJS
 ========
 
-JockeyJS is an iOS (and now Android!) and JS library that facilitates two-way communication between iOS apps and JavaScript apps running inside them.
+JockeyJS is an iOS (and now Android!) and JS library that facilitates two-way communication between iOS (and Android) apps and JavaScript apps running inside them.
 
 There's a desire for Android support and the Android JavaScript dispatcher has been stubbed out. If you can contribute, please do!
 
@@ -30,7 +30,7 @@ Setup - Android
 JockeyJS will help your Android app communicate with a JavaScript application running inside a WebView.
 
 1. Download the latest JockeyJS.Android project.
-1. Add a library reference to JockeyJS.Android in your Android applictation (in Eclipse this is done through [Right-click Project]->Properties->Android->Add..)
+1. Add a library reference to JockeyJS.Android in your Android application (in Eclipse this is done through [Right-click Project]->Properties->Android->Add..)
 1. In your web app make sure to include `JockeyJS/js/jockey.js` as a script tag.
 1. Add Jockey into your app.
 
@@ -40,9 +40,10 @@ There are two ways you can use Jockey in your Android app.
 The first is if you plan to use Jockey in only one activity or want to keep instances seperate between activities
 ```Java
 
-//We use a JockeyImpl which implements the Jockey interface
-JockeyImpl jockey;
+//Declare an instance of Jockey
+Jockey jockey;
 
+//The WebView that we will be using, assumed to be instantiated either through findViewById or some method of injection.
 WebView webView;
 
 @Override
@@ -52,9 +53,13 @@ protected void onStart() {
 	//Get the default JockeyImpl
 	jockey = JockeyImpl.getDefault();
 
+	//Configure your webView to be used with Jockey
 	jockey.configure(webView);
 
+	//Set some event handlers
 	setJockeyEvents();
+	
+	//Load your webPage
 	webView.loadUrl("file:///your.url.com");
 }
 
@@ -269,6 +274,7 @@ jockey.on("event-name", new JockeyAsyncHandler() {
 	@Override
 	protected void doPerform(Map<Object, Object> payload) {
 		//Do something asynchronously
+		//No need to called completed(), Jockey will take care of that for you!
 	}
 });
 
