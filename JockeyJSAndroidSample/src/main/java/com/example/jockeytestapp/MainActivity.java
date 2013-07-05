@@ -25,7 +25,6 @@ package com.example.jockeytestapp;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -53,16 +52,17 @@ import com.jockeyjs.JockeyAsyncHandler;
 import com.jockeyjs.JockeyCallback;
 import com.jockeyjs.JockeyHandler;
 import com.jockeyjs.JockeyImpl;
+import static com.jockeyjs.NativeOS.nativeOS;
 
 public class MainActivity extends Activity {
 
 	public WebView webView;
-	
+
 	public LinearLayout toolbar;
 	public boolean isFullscreen = false;
-	
+
 	private Jockey jockey;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
 		btnBlue.setOnClickListener(toolbarListener);
 		btnWhite.setOnClickListener(toolbarListener);
 	}
-	
+
 	protected void updateColor(Map<String, String> payload) {
 		jockey.send("color-change", webView, payload);
 	}
@@ -112,26 +112,27 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		
+
 		jockey = JockeyImpl.getDefault();
-		
+
 		jockey.configure(webView);
-		
+
 		setJockeyEvents();
 
 		webView.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public boolean onJsAlert(WebView view, String url, String message,
 					JsResult result) {
-				Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+				Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT)
+						.show();
 				result.confirm();
 				return true;
 			}
 		});
-		
+
 		webView.loadUrl("file:///android_asset/index.html");
 	}
-	
+
 	@Override
 	protected void onStop() {
 		super.onStop();
@@ -150,7 +151,7 @@ public class MainActivity extends Activity {
 		case R.id.action_showimage:
 			HashMap<String, String> data = new HashMap<String, String>();
 			data.put("feed", "http://www.google.com/doodles/doodles.xml");
-			
+
 			jockey.send("show-image", webView, new JockeyCallback() {
 				public void call() {
 					AlertDialog.Builder alert = new AlertDialog.Builder(
@@ -172,17 +173,21 @@ public class MainActivity extends Activity {
 
 		return true;
 	}
-	
+
 	private Handler _handler = new Handler();
 
 	public void setJockeyEvents() {
-		jockey.on("toggle-fullscreen", new JockeyHandler() {
-			@Override
-			protected void doPerform(Map<Object, Object> payload) {
-				toggleFullscreen();
-			}
-		});
-		
+
+		jockey.on("toggle-fullscreen", 
+				nativeOS(this).vibrate(50),
+				nativeOS(this).toast("Event clicked", Toast.LENGTH_SHORT),
+				new JockeyHandler() {
+					@Override
+					protected void doPerform(Map<Object, Object> payload) {
+						toggleFullscreen();
+					}
+				});
+
 		jockey.on("toggle-fullscreen-with-callback", new JockeyAsyncHandler() {
 			@Override
 			protected void doPerform(Map<Object, Object> payload) {
@@ -190,11 +195,12 @@ public class MainActivity extends Activity {
 					@Override
 					public void run() {
 						toggleFullscreen();
-					}});
-				
+					}
+				});
+
 			}
 		});
-		
+
 		jockey.on("log", new JockeyHandler() {
 			@Override
 			public void doPerform(Map<Object, Object> payload) {
@@ -202,13 +208,12 @@ public class MainActivity extends Activity {
 				System.out.println(value);
 				Log.d("jockey", value);
 			}
-			
 		});
 	}
 
 	public void toggleFullscreen() {
 		Window w = getWindow();
-		
+
 		if (isFullscreen) {
 			w.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 			w.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
