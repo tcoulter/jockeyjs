@@ -1,9 +1,6 @@
 package com.jockeyjs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
@@ -22,7 +19,7 @@ public abstract class JockeyImpl implements Jockey {
 		}
 	};
 
-	private Map<String, List<JockeyHandler>> _listeners = new HashMap<String, List<JockeyHandler>>();
+	private Map<String, CompositeJockeyHandler> _listeners = new HashMap<String, CompositeJockeyHandler>();
 	private SparseArray<JockeyCallback> _callbacks = new SparseArray<JockeyCallback>();
 
 	private OnValidateListener _onValidateListener;
@@ -55,10 +52,10 @@ public abstract class JockeyImpl implements Jockey {
 	public void on(String type, JockeyHandler... handler) {
 
 		if (!this.handles(type)) {
-			_listeners.put(type, new ArrayList<JockeyHandler>());
+			_listeners.put(type, new CompositeJockeyHandler());
 		}
 
-		_listeners.get(type).addAll(Arrays.asList(handler));
+		_listeners.get(type).add(handler);
 	}
 
 	@Override
@@ -81,23 +78,22 @@ public abstract class JockeyImpl implements Jockey {
 		String type = envelope.type;
 
 		if (this.handles(type)) {
-			List<JockeyHandler> handlers = _listeners.get(type);
+			JockeyHandler handler = _listeners.get(type);
 
-			for (JockeyHandler handler : handlers) {
-				handler.perform(envelope.payload, new OnCompletedListener() {
-					@Override
-					public void onCompleted() {
-						//This has to be done with a handler because a webview load must be triggered
-						//in the UI thread
-						_handler.post(new Runnable() {
-							@Override
-							public void run() {
-								triggerCallbackOnWebView(webView, messageId);
-							}
-						});
-					}
-				});
-			}
+			handler.perform(envelope.payload, new OnCompletedListener() {
+				@Override
+				public void onCompleted() {
+					// This has to be done with a handler because a webview load
+					// must be triggered
+					// in the UI thread
+					_handler.post(new Runnable() {
+						@Override
+						public void run() {
+							triggerCallbackOnWebView(webView, messageId);
+						}
+					});
+				}
+			});
 		}
 	}
 
