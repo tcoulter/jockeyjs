@@ -55,7 +55,7 @@
         complete();
     };
     
-    [self on:type performAsync:extended];
+    [self on:type performAsync:[extended copy]];
 }
 
 + (void)on:(NSString *)type performAsync:(JockeyAsyncHandler)handler
