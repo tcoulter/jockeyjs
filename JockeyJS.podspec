@@ -13,5 +13,6 @@ Pod::Spec.new do |s|
   s.author       = { "Tim Coulter" => "tim@timothyjcoulter.com" }
   s.source       = { :git => "https://github.com/tcoulter/jockeyjs.git", :tag => "1.0.0" }
   s.source_files = 'JockeyJS/includes/Jockey.{h,m}'
+  s.requires_arc = true
   s.platform = :ios
 end
