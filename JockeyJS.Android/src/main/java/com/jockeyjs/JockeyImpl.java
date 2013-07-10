@@ -7,8 +7,10 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.util.SparseArray;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.jockeyjs.JockeyHandler.OnCompletedListener;
+import com.jockeyjs.util.ForwardingWebViewClient;
 
 public abstract class JockeyImpl implements Jockey {
 
@@ -26,7 +28,7 @@ public abstract class JockeyImpl implements Jockey {
 
 	private Handler _handler = new Handler();
 
-	private final JockeyWebViewClient _client;
+	private JockeyWebViewClient _client;
 
 	public JockeyImpl() {
 		_client = new JockeyWebViewClient(this);
@@ -125,11 +127,17 @@ public abstract class JockeyImpl implements Jockey {
 		webView.setWebViewClient(this.getWebViewClient());
 	}
 
-	private JockeyWebViewClient getWebViewClient() {
+	protected ForwardingWebViewClient getWebViewClient() {
 		return this._client;
 	}
 
-	public static JockeyImpl getDefault() {
+	public static Jockey getDefault() {
 		return new DefaultJockeyImpl();
 	}
+	
+	@Override
+	public void setWebViewClient(WebViewClient client) {
+		this._client.setDelegate(client);
+	}
+
 }

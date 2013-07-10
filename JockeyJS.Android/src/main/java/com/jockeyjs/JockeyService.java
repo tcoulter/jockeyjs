@@ -30,13 +30,14 @@ import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 
 public class JockeyService extends Service implements Jockey {
 
 	private final IBinder _binder = new JockeyBinder();
 	
-	private JockeyImpl _jockeyImpl = JockeyImpl.getDefault();
+	private Jockey _jockeyImpl = JockeyImpl.getDefault();
 	
 	/**
 	 * Convenience method for binding to the JockeyService
@@ -107,6 +108,10 @@ public class JockeyService extends Service implements Jockey {
 	@Override
 	public boolean handles(String eventName) {
 		return _jockeyImpl.handles(eventName);
+	}
+
+	public void setWebViewClient(WebViewClient client) {
+		_jockeyImpl.setWebViewClient(client);
 	}
 
 }

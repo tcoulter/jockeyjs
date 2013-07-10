@@ -25,7 +25,7 @@ import android.widget.Toast;
  * @author Paul
  *
  */
-public final class NativeOS {
+public final class NativeOS extends CompositeJockeyHandler {
 	
 	public static class ToastHandler extends JockeyHandler {
 
@@ -46,6 +46,8 @@ public final class NativeOS {
 		
 		@Override
 		protected void completed(OnCompletedListener listener) {
+			if (listener != null)
+				listener.onCompleted();
 		}
 
 	}
@@ -69,6 +71,8 @@ public final class NativeOS {
 		
 		@Override
 		protected void completed(OnCompletedListener listener) {
+			if (listener != null)
+				listener.onCompleted();
 		}
 
 	}
@@ -83,12 +87,14 @@ public final class NativeOS {
 		return new NativeOS(context);
 	}
 	
-	public JockeyHandler vibrate(long length) {
-		return new VibrateHandler(_context, length);
+	public NativeOS vibrate(long length) {
+		this.add(new VibrateHandler(_context, length));
+		return this;
 	}
 	
-	public JockeyHandler toast(String message, int length) {
-		return new ToastHandler(_context, message, length);
+	public NativeOS toast(String message, int length) {
+		this.add(new ToastHandler(_context, message, length));
+		return this;
 	}
 	
 }

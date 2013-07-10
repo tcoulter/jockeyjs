@@ -23,6 +23,7 @@
 package com.jockeyjs;
 
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 /**
  * The primary interface for communicating between a WebView and the local android activity.
@@ -127,6 +128,15 @@ public interface Jockey {
 	 */
 	public boolean handles(String string);
 	
+	
+	/**
+	 * Sets the listener that will be called when validation needs to be performed
+	 * on the incoming host before a redirect
+	 * 
+	 * @param listener
+	 */
 	public void setOnValidateListener(OnValidateListener listener);
+
+	public void setWebViewClient(WebViewClient client);
 	
 }

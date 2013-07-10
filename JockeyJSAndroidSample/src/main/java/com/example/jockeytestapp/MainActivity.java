@@ -22,6 +22,8 @@
  ******************************************************************************/
 package com.example.jockeytestapp;
 
+import static com.jockeyjs.NativeOS.nativeOS;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +45,7 @@ import android.view.WindowManager;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -52,7 +55,6 @@ import com.jockeyjs.JockeyAsyncHandler;
 import com.jockeyjs.JockeyCallback;
 import com.jockeyjs.JockeyHandler;
 import com.jockeyjs.JockeyImpl;
-import static com.jockeyjs.NativeOS.nativeOS;
 
 public class MainActivity extends Activity {
 
@@ -116,6 +118,15 @@ public class MainActivity extends Activity {
 		jockey = JockeyImpl.getDefault();
 
 		jockey.configure(webView);
+		
+		jockey.setWebViewClient(new WebViewClient() {
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				Log.d("webViewClient", "page finished loading!");
+			}
+		});
+		
 
 		setJockeyEvents();
 
@@ -179,8 +190,9 @@ public class MainActivity extends Activity {
 	public void setJockeyEvents() {
 
 		jockey.on("toggle-fullscreen", 
-				nativeOS(this).vibrate(50),
-				nativeOS(this).toast("Event clicked", Toast.LENGTH_SHORT),
+				nativeOS(this)
+					.vibrate(50)
+					.toast("Event clicked", Toast.LENGTH_SHORT),
 				new JockeyHandler() {
 					@Override
 					protected void doPerform(Map<Object, Object> payload) {

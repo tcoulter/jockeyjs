@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 public class DefaultJockeyImpl extends JockeyImpl {
 	
 	private int messageCount = 0;
+	private Gson gson = new Gson();
 
 	@Override
 	public void send(String type, WebView toWebView, Object withPayload,
@@ -18,7 +19,6 @@ public class DefaultJockeyImpl extends JockeyImpl {
 		}
 
 		if (withPayload != null) {
-			Gson gson = new Gson();
 			withPayload = gson.toJson(withPayload);
 		}
 
