@@ -46,6 +46,8 @@ Jockey jockey;
 //The WebView that we will be using, assumed to be instantiated either through findViewById or some method of injection.
 WebView webView;
 
+WebViewClient myWebViewClient;
+
 @Override
 protected void onStart() {
 	super.onStart();
@@ -55,6 +57,10 @@ protected void onStart() {
 
 	//Configure your webView to be used with Jockey
 	jockey.configure(webView);
+	
+	//Pass Jockey your custom WebViewClient
+	//Notice we can do this even after our webView has been configured.
+	jockey.setWebViewClient(myWebViewClient)
 
 	//Set some event handlers
 	setJockeyEvents();
@@ -277,6 +283,22 @@ jockey.on("event-name", new JockeyAsyncHandler() {
 		//No need to called completed(), Jockey will take care of that for you!
 	}
 });
+
+
+//We can even chain together several handlers so that they get processed in sequence.
+//Here we also see an example of the NativeOS interface which allows us to chain some common
+//system handlers to simulate native UI interactions.
+jockey.on("event-name", nativeOS(this)
+			.toast("Event occurred!")
+			.vibrate(100), //Don't forget to grant permission
+			new JockeyHandler() {
+				@Override
+				protected void doPerform(Map<Object, Object> payload) {	
+				}
+			}
+);
+
+//...More Handlers
 
 
 //If you would like to stop listening for a specific event
