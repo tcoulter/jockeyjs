@@ -348,7 +348,7 @@ jockey.setValidationListener(new OnValidateListener() {
 Contributors
 ------------
 
-* @tcoulter - original Author (iOS only)
+* @tcoulter - Original author (iOS only)
 * @paulpdaniels - Android support
 
 
