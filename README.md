@@ -1,9 +1,7 @@
 JockeyJS
 ========
 
-JockeyJS is an iOS (and now Android!) and JS library that facilitates two-way communication between iOS (and Android) apps and JavaScript apps running inside them.
-
-There's a desire for Android support and the Android JavaScript dispatcher has been stubbed out. If you can contribute, please do!
+JockeyJS is a dual-iOS and Android library that facilitates two-way communication between native applications and JavaScript apps running inside them.
 
 <img src="example.png" height="521px" width="277px" />
 
@@ -346,5 +344,11 @@ jockey.setValidationListener(new OnValidateListener() {
 });
 
 ```
+
+Contributors
+------------
+
+* @tcoulter - original Author (iOS only)
+* @paulpdaniels - Android support
 
 
