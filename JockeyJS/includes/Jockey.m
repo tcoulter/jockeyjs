@@ -50,7 +50,7 @@
 
 + (void)on:(NSString*)type perform:(JockeyHandler)handler
 {
-    void (^ extended)(NSDictionary *payload, void (^ complete)()) = ^(NSDictionary *payload, void(^ complete)()) {
+    void (^ extended)(UIWebView *webView, NSDictionary *payload, void (^ complete)()) = ^(UIWebView *webView, NSDictionary *payload, void(^ complete)()) {
         handler(payload);
         complete();
     };
@@ -153,7 +153,7 @@
     };
     
     for (JockeyAsyncHandler handler in listenerList) {
-        handler(payload, complete);
+        handler(webView, payload, complete);
     }
 }
 
