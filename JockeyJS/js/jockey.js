@@ -187,7 +187,7 @@
     var UIWebView = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent);
 	var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
 	
-    if ((iOS && UIWebView) || isAndroid) {
+    if ((iOS && UIWebView) || isAndroid) { 
         Jockey.dispatcher = Dispatcher;
     } else {
         Jockey.dispatcher = nullDispatcher;
