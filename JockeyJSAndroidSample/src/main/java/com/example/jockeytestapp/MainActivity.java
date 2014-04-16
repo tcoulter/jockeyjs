@@ -217,7 +217,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void doPerform(Map<Object, Object> payload) {
 				String value = "color=" + payload.get("color");
-				System.out.println(value);
 				Log.d("jockey", value);
 			}
 		});
