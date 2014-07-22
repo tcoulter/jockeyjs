@@ -66,11 +66,14 @@
                 delete dispatcher.callbacks[envelope.id];
             };
 
-            window.location.href = "jockey://" + type + "/" + envelope.id + "?" + encodeURIComponent(JSON.stringify(envelope));
-        }
-    };
-
-   
+	    var src = "jockey://" + type + "/" + envelope.id + "?" + encodeURIComponent(JSON.stringify(envelope));
+            var iframe = document.createElement("iframe"); 
+            iframe.setAttribute("src", src); 
+            document.documentElement.appendChild(iframe); 
+            iframe.parentNode.removeChild(iframe); 
+            iframe = null; 
+	  }
+	};   
 
     var Jockey = {
         listeners: {},
