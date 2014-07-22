@@ -162,7 +162,7 @@
 
     // i.e., on a Desktop browser.
     var nullDispatcher = {
-        send: function() {},
+        send: function(envelope, complete) { complete(); },
         triggerCallback: function() {},
         sendCallback: function() {}
     };
