@@ -28,7 +28,7 @@
     // come from the desired host.
     var host = window.location.host;
 
-    var Dispatcher = {
+    var nativeDispatcher = {
         callbacks: {},
 
         send: function(envelope, complete) {
@@ -66,21 +66,57 @@
                 delete dispatcher.callbacks[envelope.id];
             };
 
-	    var src = "jockey://" + type + "/" + envelope.id + "?" + encodeURIComponent(JSON.stringify(envelope));
-            var iframe = document.createElement("iframe"); 
-            iframe.setAttribute("src", src); 
-            document.documentElement.appendChild(iframe); 
-            iframe.parentNode.removeChild(iframe); 
-            iframe = null; 
-	  }
-	};   
+          var src = "jockey://" + type + "/" + envelope.id + "?" + encodeURIComponent(JSON.stringify(envelope));
+            var iframe = document.createElement("iframe");
+            iframe.setAttribute("src", src);
+            document.documentElement.appendChild(iframe);
+            iframe.parentNode.removeChild(iframe);
+            iframe = null;
+    }
+  };
+
+    var IframeDispatcher = {
+
+        callbacks: {},
+
+        send: function(envelope, complete) {
+            this.dispatchMessage("jockeyEvent", envelope, complete);
+        },
+
+        sendCallback: function(messageId) {
+            var envelope = Jockey.createEnvelope(messageId);
+
+            this.dispatchMessage("jockeyCallback", envelope, function() {});
+        },
+
+        triggerCallback: function(id) {
+            this.callbacks[id]();
+        },
+
+        // `type` can either be "jockeyEvent" or "jockeyCallback"
+        dispatchMessage: function(type, envelope, complete) {
+            var dispatcher = this;
+
+            this.callbacks[envelope.id] = function() {
+                complete();
+
+                delete dispatcher.callbacks[envelope.id];
+            };
+
+            Jockey.targetWindow.postMessage({ type: type, envelope: envelope }, Jockey.targetDomain);
+        }
+    };
 
     var Jockey = {
         listeners: {},
 
-        dispatcher: null,
+        dispatchers: [],
 
         messageCount: 0,
+
+        targetDomain: '*',
+
+        targetWindow: window.parent,
 
         on: function(type, fn) {
             if (!this.listeners.hasOwnProperty(type) || !this.listeners[type] instanceof Array) {
@@ -109,7 +145,9 @@
 
             var envelope = this.createEnvelope(this.messageCount, type, payload);
 
-            this.dispatcher.send(envelope, complete);
+            this.dispatchers.forEach(function(dispatcher) {
+                dispatcher.send(envelope, complete);
+            });
 
             this.messageCount += 1;
         },
@@ -127,7 +165,9 @@
                 executedCount += 1;
 
                 if (executedCount >= listenerList.length) {
-                    self.dispatcher.sendCallback(messageId);
+                    self.dispatchers.forEach(function(dispatcher) {
+                        dispatcher.sendCallback(messageId);
+                    });
                 }
             };
 
@@ -150,7 +190,28 @@
         // This will trigger the callback passed to the send() function for
         // a given message.
         triggerCallback: function(id) {
-            this.dispatcher.triggerCallback(id);
+            this.dispatchers.forEach(function(dispatcher) {
+                dispatcher.triggerCallback(id);
+            });
+        },
+
+        restrictIframeDispatcher: function(targetDomain, targetWindow) {
+            this.targetDomain = targetDomain;
+            this.targetWindow = targetWindow;
+        },
+
+        // Handles postMessage events when iframeDispatcher is used
+        onMessageRecieved: function(event) {
+            if (this.targetDomain != '*' && this.targetDomain != event.origin) {
+                return;
+            }
+
+            var envelope = event.data.envelope;
+            if (event.data.type == "jockeyEvent") {
+                this.trigger(envelope.type, envelope.id, envelope.payload);
+            } else if (event.data.type == "jockeyCallback") {
+                this.triggerCallback(event.data.envelope.id);
+            }
         },
 
         createEnvelope: function(id, type, payload) {
@@ -161,13 +222,6 @@
                 payload: payload
             };
         }
-    };
-
-    // i.e., on a Desktop browser.
-    var nullDispatcher = {
-        send: function(envelope, complete) { complete(); },
-        triggerCallback: function() {},
-        sendCallback: function() {}
     };
 
     // Dispatcher detection. Currently only supports iOS.
@@ -187,14 +241,15 @@
     // be shown that says "Safari cannot open page because the URL is invalid."
     // From here: http://stackoverflow.com/questions/4460205/detect-ipad-iphone-webview-via-javascript
 
-    var UIWebView = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent);
-	var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
-	
-    if ((iOS && UIWebView) || isAndroid) { 
-        Jockey.dispatcher = Dispatcher;
-    } else {
-        Jockey.dispatcher = nullDispatcher;
+    var UIWebView  = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent);
+    var isAndroid  = navigator.userAgent.toLowerCase().indexOf("android") > -1;
+
+    if ((iOS && UIWebView) || isAndroid) {
+        Jockey.dispatchers.push(nativeDispatcher);
     }
+
+    Jockey.dispatchers.push(IframeDispatcher);
+    window.addEventListener("message", this.onMessageRecieved.bind(this), false);
 
     window.Jockey = Jockey;
 })();
