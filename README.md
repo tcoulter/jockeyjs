@@ -182,7 +182,7 @@ jockey.send("event-name", webView, payload, new JockeyCallback() {
 
 Receiving events from app in JavaScript
 ---------------------------------------
-Event listeners in Jockey are modeled after JQuery's event listeners (not far less featureful). To receive the above events in JavaScript, simply add the following to your JavaScript application:
+Event listeners in Jockey are modeled after JQuery's event listeners (but far less featureful). To receive the above events in JavaScript, simply add the following to your JavaScript application:
 
 ```javascript
 // Listen for an event from iOS and log the payload.
