@@ -2,7 +2,7 @@ JockeyJS
 ========
 
 JockeyJS is a dual-iOS and Android library that facilitates two-way communication between native applications and JavaScript apps running inside them.
-It also supports communication between apps running other apps in an iframe.
+It also supports communication between iframes running inside a webview.
 
 <img src="example.png" height="521px" width="277px" />
 
@@ -148,7 +148,7 @@ JockeyJS will help your app communicate with a JavaScript application running in
 1. Download the latest JockeyJS into your app's project directory.
 1. In your web app, make sure to include `JockeyJS/js/jockey.js` as a script tag.
 1. Include an iframe with the application running inside your app.
-1. Configure Jockey with the target iframe your app will communicate with:
+1. Configure Jockey with the target iframe your app will communicate with (this part is optional):
 
 ```javascript
 Jockey.restrictIframeDispatcher('http://www.example.com', $('iframe')[0].contentWindow)
@@ -393,10 +393,18 @@ jockey.setValidationListener(new OnValidateListener() {
 
 ```
 
+#####Other platforms
+
+For communication between iframes, jockey uses [window.postMessage()](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). The default target domain is '*' and the default target frame is `window.parent`, meaning that the sender/receiver iframe is not verified. It is advised to always restrict the target iframe:
+
+```javascript
+
+// Restricts the target domain and target frame
+Jockey.restrictIframeDispatcher('http://www.example.com', $('iframe')[0].contentWindow)
+```
+
 Contributors
 ------------
 
 * @tcoulter - original author (iOS only)
 * @paulpdaniels - Android support
-
-
