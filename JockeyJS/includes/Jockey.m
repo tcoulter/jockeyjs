@@ -99,7 +99,7 @@
     NSError *err;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:payload options:NSJSONWritingPrettyPrinted error:&err];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSString *javascript = [NSString stringWithFormat:@"Jockey.trigger(\"%@\", %i, %@);", type, [messageId integerValue], jsonString];
+    NSString *javascript = [NSString stringWithFormat:@"Jockey.trigger(\"%@\", %li, %@);", type, (long)[messageId integerValue], jsonString];
     
     [webView stringByEvaluatingJavaScriptFromString:javascript];
     

@@ -48,7 +48,7 @@
         [self toggleFullscreen:nil withDuration:0.3];
     }];
     
-    [Jockey on:@"toggle-fullscreen-with-callback" performAsync:^(NSDictionary *payload, void (^complete)()) {
+    [Jockey on:@"toggle-fullscreen-with-callback" performAsync:^(UIWebView *webView, NSDictionary *payload, void (^complete)()) {
         NSTimeInterval duration = [[payload objectForKey:@"duration"] integerValue];
         
         [self toggleFullscreen:complete withDuration:duration];
