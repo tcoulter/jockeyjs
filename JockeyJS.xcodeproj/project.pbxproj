@@ -19,7 +19,6 @@
 		2275779A16E3E13B00A58944 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2275779816E3E13B00A58944 /* MainStoryboard_iPhone.storyboard */; };
 		2275779D16E3E13B00A58944 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2275779B16E3E13B00A58944 /* MainStoryboard_iPad.storyboard */; };
 		227577A016E3E13B00A58944 /* JockeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2275779F16E3E13B00A58944 /* JockeyViewController.m */; };
-		227577A816E3E13B00A58944 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227577A716E3E13B00A58944 /* SenTestingKit.framework */; };
 		227577A916E3E13B00A58944 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2275778016E3E13B00A58944 /* UIKit.framework */; };
 		227577AA16E3E13B00A58944 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2275778216E3E13B00A58944 /* Foundation.framework */; };
 		227577B216E3E13B00A58944 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 227577B016E3E13B00A58944 /* InfoPlist.strings */; };
@@ -60,7 +59,6 @@
 		2275779E16E3E13B00A58944 /* JockeyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JockeyViewController.h; sourceTree = "<group>"; };
 		2275779F16E3E13B00A58944 /* JockeyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JockeyViewController.m; sourceTree = "<group>"; };
 		227577A616E3E13B00A58944 /* JockeyJSTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JockeyJSTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		227577A716E3E13B00A58944 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		227577AF16E3E13B00A58944 /* JockeyJSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JockeyJSTests-Info.plist"; sourceTree = "<group>"; };
 		227577B116E3E13B00A58944 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		227577B316E3E13B00A58944 /* JockeyJSTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JockeyJSTests.h; sourceTree = "<group>"; };
@@ -89,7 +87,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				227577A816E3E13B00A58944 /* SenTestingKit.framework in Frameworks */,
 				227577A916E3E13B00A58944 /* UIKit.framework in Frameworks */,
 				227577AA16E3E13B00A58944 /* Foundation.framework in Frameworks */,
 			);
@@ -124,7 +121,6 @@
 				2275778016E3E13B00A58944 /* UIKit.framework */,
 				2275778216E3E13B00A58944 /* Foundation.framework */,
 				2275778416E3E13B00A58944 /* CoreGraphics.framework */,
-				227577A716E3E13B00A58944 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -244,7 +240,7 @@
 			name = JockeyJSTests;
 			productName = JockeyJSTests;
 			productReference = 227577A616E3E13B00A58944 /* JockeyJSTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -253,7 +249,8 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = Jockey;
-				LastUpgradeCheck = 0460;
+				LastTestingUpgradeCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Corkboardme;
 			};
 			buildConfigurationList = 2275777816E3E13B00A58944 /* Build configuration list for PBXProject "JockeyJS" */;
@@ -398,6 +395,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -448,6 +446,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JockeyJS/JockeyJS-Prefix.pch";
 				INFOPLIST_FILE = "JockeyJS/JockeyJS-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.corkboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -459,6 +458,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JockeyJS/JockeyJS-Prefix.pch";
 				INFOPLIST_FILE = "JockeyJS/JockeyJS-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.corkboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -471,13 +471,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JockeyJS/JockeyJS-Prefix.pch";
 				INFOPLIST_FILE = "JockeyJSTests/JockeyJSTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.corkboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -488,13 +489,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JockeyJS/JockeyJS-Prefix.pch";
 				INFOPLIST_FILE = "JockeyJSTests/JockeyJSTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.corkboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
