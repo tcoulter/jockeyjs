@@ -2,6 +2,7 @@ JockeyJS
 ========
 
 JockeyJS is a dual-iOS and Android library that facilitates two-way communication between native applications and JavaScript apps running inside them.
+It also supports communication between iframes running inside a webview.
 
 <img src="example.png" height="521px" width="277px" />
 
@@ -49,20 +50,20 @@ WebViewClient myWebViewClient;
 @Override
 protected void onStart() {
 	super.onStart();
-	
+
 	//Get the default JockeyImpl
 	jockey = JockeyImpl.getDefault();
 
 	//Configure your webView to be used with Jockey
 	jockey.configure(webView);
-	
+
 	//Pass Jockey your custom WebViewClient
 	//Notice we can do this even after our webView has been configured.
 	jockey.setWebViewClient(myWebViewClient)
 
 	//Set some event handlers
 	setJockeyEvents();
-	
+
 	//Load your webPage
 	webView.loadUrl("file:///your.url.com");
 }
@@ -97,22 +98,22 @@ private ServiceConnection _connection = new ServiceConnection() {
 	public void onServiceDisconnected(ComponentName name) {
 		_bound = false;
 	}
-	
+
 	@Override
 	public void onServiceConnected(ComponentName name, IBinder service) {
 		JockeyBinder binder = (JockeyBinder) service;
-		
+
 		//Retrieves the instance of the JockeyService from the binder
 		jockey = binder.getService();
-		
+
 		//This will setup the WebView to enable JavaScript execution and provide a custom JockeyWebViewClient
 		jockey.configure(webView);
-		
+
 		//Make Jockey start listening for events
 		setJockeyEvents();
-		
+
 		_bound = true;
-		
+
 		//Redirect the WebView to your webpage.
 		webView.loadUrl("file:///android_assets/index.html");
 	}
@@ -139,7 +140,19 @@ protected void onStop() {
 }
 ```
 
+Setup - Other Platform
+-----
 
+JockeyJS will help your app communicate with a JavaScript application running inside an Iframe.
+
+1. Download the latest JockeyJS into your app's project directory.
+1. In your web app, make sure to include `JockeyJS/js/jockey.js` as a script tag.
+1. Include an iframe with the application running inside your app.
+1. Configure Jockey with the target iframe your app will communicate with (this part is optional):
+
+```javascript
+Jockey.restrictIframeDispatcher('http://www.example.com', $('iframe')[0].contentWindow)
+```
 
 You're all set! Now you can start passing events.
 
@@ -177,6 +190,30 @@ jockey.send("event-name", webView, payload, new JockeyCallback() {
 });
 
 
+```
+
+#####Other platforms
+
+Using iframes communication is identical for both the sender and receiver (parent app and app running inside the iframe). The following examples are the same as the ones of sending events from Javascript to the app:
+
+```javascript
+// Send an event to internal Iframe, passing a payload
+
+// Send an event to iframe app.
+Jockey.send("event-name");
+
+// Send an event to iframe app, passing an optional payload.
+Jockey.send("event-name", {
+  key: "value"
+});
+
+// Send an event to iframe app, pass an optional payload, and catch the callback when all the
+// iframe app listeners have finished processing.
+Jockey.send("event-name", {
+  key: "value"
+}, function() {
+  alert("Iframe app has finished processing!");
+});
 ```
 
 
@@ -291,7 +328,7 @@ jockey.on("event-name", nativeOS(this)
 			.vibrate(100), //Don't forget to grant permission
 			new JockeyHandler() {
 				@Override
-				protected void doPerform(Map<Object, Object> payload) {	
+				protected void doPerform(Map<Object, Object> payload) {
 				}
 			}
 );
@@ -307,6 +344,17 @@ jockey.clear();
 
 ```
 
+#####Other platforms
+
+```javascript
+//Listen for an event from JavaScript and log the payload.
+Jockey.on("event-name", function(payload) {
+  console.log(payload);
+});
+
+//If you would like to stop listening for a specific event
+Jockey.off("event-name");
+```
 
 Security
 --------
@@ -345,10 +393,18 @@ jockey.setValidationListener(new OnValidateListener() {
 
 ```
 
+#####Other platforms
+
+For communication between iframes, jockey uses [window.postMessage()](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). The default target domain is '*' and the default target frame is `window.parent`, meaning that the sender/receiver iframe is not verified. It is advised to always restrict the target iframe:
+
+```javascript
+
+// Restricts the target domain and target frame
+Jockey.restrictIframeDispatcher('http://www.example.com', $('iframe')[0].contentWindow)
+```
+
 Contributors
 ------------
 
 * @tcoulter - original author (iOS only)
 * @paulpdaniels - Android support
-
-
