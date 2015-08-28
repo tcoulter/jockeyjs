@@ -22,94 +22,98 @@
  ******************************************************************************/
 package com.jockeyjs;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import android.annotation.SuppressLint;
 import android.util.Log;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.webkit.WebResourceResponse;
 
-import com.google.gson.Gson;
 import com.jockeyjs.util.ForwardingWebViewClient;
+import com.google.gson.Gson;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.xwalk.core.XWalkResourceClient;
+import org.xwalk.core.XWalkView;
 
-@SuppressLint("SetJavaScriptEnabled")
-class JockeyWebViewClient extends ForwardingWebViewClient {
+@SuppressLint ("SetJavaScriptEnabled") class JockeyWebViewClient extends ForwardingWebViewClient {
 
-	private JockeyImpl _jockeyImpl;
-	private WebViewClient _delegate;
-	private Gson _gson;
+  private JockeyImpl _jockeyImpl;
 
-	public JockeyWebViewClient(JockeyImpl jockey) {
-		_gson = new Gson();
-		_jockeyImpl = jockey;
-	}
+  private XWalkResourceClient _delegate;
 
-	public JockeyImpl getImplementation() {
-		return _jockeyImpl;
-	}
+  private Gson _gson;
 
-	protected void setDelegate(WebViewClient client) {
-		_delegate = client;
-	}
+  public JockeyWebViewClient (XWalkView view, JockeyImpl jockey) {
 
-	public WebViewClient delegate() {
-		return _delegate;
-	}
-	
-	@Override
-	public boolean shouldOverrideUrlLoading(WebView view, String url) {
-	
-		if (delegate() != null
-				&& delegate().shouldOverrideUrlLoading(view, url))
-			return true;
-	
-		try {
-			URI uri = new URI(url);
-	
-			if (isJockeyScheme(uri)) {
-				processUri(view, uri);
-				return true;
-			}
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (HostValidationException e) {
-			e.printStackTrace();
-			Log.e("Jockey", "The source of the event could not be validated!");
-		}
-		return false;
-	}
+    super(view);
 
-	public boolean isJockeyScheme(URI uri) {
-		return uri.getScheme().equals("jockey") && !uri.getQuery().equals("");
-	}
+    _gson = new Gson();
+    _jockeyImpl = jockey;
+  }
 
-	public void processUri(WebView view, URI uri)
-			throws HostValidationException {
-		String[] parts = uri.getPath().replaceAll("^\\/", "").split("/");
-		String host = uri.getHost();
+  public JockeyImpl getImplementation () {
 
-		JockeyWebViewPayload payload = checkPayload(_gson.fromJson(
-				uri.getQuery(), JockeyWebViewPayload.class));
+    return _jockeyImpl;
+  }
 
-		if (parts.length > 0) {
-			if (host.equals("event")) {
-				getImplementation().triggerEventFromWebView(view, payload);
-			} else if (host.equals("callback")) {
-				getImplementation().triggerCallbackForMessage(
-						Integer.parseInt(parts[0]));
-			}
-		}
-	}
+  protected void setDelegate (XWalkResourceClient client) {
 
-	public JockeyWebViewPayload checkPayload(JockeyWebViewPayload fromJson)
-			throws HostValidationException {
-		validateHost(fromJson.host);
-		return fromJson;
-	}
+    _delegate = client;
+  }
 
-	private void validateHost(String host) throws HostValidationException {
-		getImplementation().validate(host);
-	}
+  public XWalkResourceClient delegate () {
 
+    return _delegate;
+  }
+
+  @Override public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
+
+    if (delegate() != null) {
+      return delegate().shouldInterceptLoadRequest(view, url);
+    }
+
+    try {
+      URI uri = new URI(url);
+
+      if (isJockeyScheme(uri)) {
+        processUri(view, uri);
+      }
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    } catch (HostValidationException e) {
+      e.printStackTrace();
+      Log.e("Jockey", "The source of the event could not be validated!");
+    }
+    return null;
+  }
+
+  public boolean isJockeyScheme (URI uri) {
+
+    return uri.getScheme().equals("jockey") && !uri.getQuery().equals("");
+  }
+
+  public void processUri (XWalkView view, URI uri) throws HostValidationException {
+
+    String[] parts = uri.getPath().replaceAll("^\\/", "").split("/");
+    String host = uri.getHost();
+
+    JockeyWebViewPayload payload = checkPayload(_gson.fromJson(uri.getQuery(), JockeyWebViewPayload.class));
+
+    if (parts.length > 0) {
+      if (host.equals("event")) {
+        getImplementation().triggerEventFromXWalkView(view, payload);
+      } else if (host.equals("callback")) {
+        getImplementation().triggerCallbackForMessage(Integer.parseInt(parts[0]));
+      }
+    }
+  }
+
+  public JockeyWebViewPayload checkPayload (JockeyWebViewPayload fromJson) throws HostValidationException {
+
+    validateHost(fromJson.host);
+    return fromJson;
+  }
+
+  private void validateHost (String host) throws HostValidationException {
+
+    getImplementation().validate(host);
+  }
 }
