@@ -161,7 +161,7 @@
     };
     
     for (JockeyAsyncHandler handler in listenerList) {
-        handler(payload, complete);
+        handler(webView, payload, complete);
     }
 }
 
