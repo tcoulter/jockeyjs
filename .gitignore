@@ -18,3 +18,4 @@ DerivedData
 .idea/
 
 /JockeyJSAndroidSample/bin
+.*.sw*
