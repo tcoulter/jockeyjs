@@ -8,6 +8,8 @@ android {
     applicationId "com.example.jockeytestapp"
     minSdkVersion 8
     targetSdkVersion 16
+    versionCode 1
+    versionName '1.0'
   }
 
   buildTypes {
