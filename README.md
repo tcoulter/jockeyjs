@@ -1,3 +1,7 @@
+This repo is forked to add a temporary solution for WKWebView support.
+===
+Eventually `JockeyJS` will be removed from WKWebView, but to support some testing code, this project is created.
+
 JockeyJS
 ========
 
@@ -408,5 +412,4 @@ Contributors
 
 * @tcoulter - original author (iOS only)
 * @paulpdaniels - Android support
-
 

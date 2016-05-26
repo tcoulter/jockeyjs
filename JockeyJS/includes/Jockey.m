@@ -24,6 +24,7 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "Jockey.h"
+#import <WebKit/WebKit.h>
 
 @interface Jockey ()
 + (id)sharedInstance;
@@ -50,7 +51,8 @@
 
 + (void)on:(NSString*)type perform:(JockeyHandler)handler
 {
-    void (^ extended)(UIWebView *webView, NSDictionary *payload, void (^ complete)()) = ^(UIWebView *webView, NSDictionary *payload, void(^ complete)()) {
+	void (^ extended)(UIWebView *webView, NSDictionary *payload, void (^ complete)()) = ^(UIWebView *webView, NSDictionary *payload, void(^ complete)()) {
+    //void (^ extended)(NSDictionary *payload, void (^ complete)()) = ^(NSDictionary *payload, void(^ complete)()) {
         handler(payload);
         complete();
     };
@@ -99,10 +101,16 @@
     NSError *err;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:payload options:NSJSONWritingPrettyPrinted error:&err];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSString *javascript = [NSString stringWithFormat:@"Jockey.trigger(\"%@\", %li, %@);", type, (long)[messageId integerValue], jsonString];
-    
-    [webView stringByEvaluatingJavaScriptFromString:javascript];
-    
+    NSString *javascript = [NSString stringWithFormat:@"Jockey.trigger(\"%@\", %zi, %@);", type, [messageId integerValue], jsonString];
+	
+	if ([webView isKindOfClass:[UIWebView class]])
+        [webView stringByEvaluatingJavaScriptFromString:javascript];
+	else if ([webView isKindOfClass:[WKWebView class]])
+	{
+		WKWebView* web8 = (WKWebView*)webView;
+		[web8 evaluateJavaScript:javascript completionHandler:nil];
+	}
+	
     jockey.messageCount = @([jockey.messageCount integerValue] + 1);
 }
 
