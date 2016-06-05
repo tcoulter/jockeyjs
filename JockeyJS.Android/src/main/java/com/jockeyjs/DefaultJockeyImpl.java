@@ -1,39 +1,41 @@
 package com.jockeyjs;
 
-import android.webkit.WebView;
-
 import com.google.gson.Gson;
+import org.xwalk.core.XWalkView;
 
 public class DefaultJockeyImpl extends JockeyImpl {
-	
-	private int messageCount = 0;
-	private Gson gson = new Gson();
 
-	@Override
-	public void send(String type, WebView toWebView, Object withPayload,
-			JockeyCallback complete) {
-		int messageId = messageCount;
+  private int messageCount = 0;
 
-		if (complete != null) {
-			add(messageId, complete);
-		}
+  private Gson gson = new Gson();
 
-		if (withPayload != null) {
-			withPayload = gson.toJson(withPayload);
-		}
+  public DefaultJockeyImpl (XWalkView view) {
 
-		String url = String.format("javascript:Jockey.trigger(\"%s\", %d, %s)",
-				type, messageId, withPayload);
-		toWebView.loadUrl(url);
+    super(view);
+  }
 
-		++messageCount;
-	}
+  @Override public void send (String type, XWalkView toWebView, Object withPayload, JockeyCallback complete) {
 
-	@Override
-	public void triggerCallbackOnWebView(WebView webView, int messageId) {
-		String url = String.format("javascript:Jockey.triggerCallback(\"%d\")",
-				messageId);
-		webView.loadUrl(url);
-	}
+    int messageId = messageCount;
 
+    if (complete != null) {
+      add(messageId, complete);
+    }
+
+    String jsonPayload = null;
+    if (withPayload != null) {
+      jsonPayload = gson.toJson(withPayload);
+    }
+
+    String url = String.format("javascript:Jockey.trigger(\"%s\", %d, %s)", type, messageId, jsonPayload);
+    toWebView.load(url, null);
+
+    ++messageCount;
+  }
+
+  @Override public void triggerCallbackOnXWalkView (XWalkView webView, int messageId) {
+
+    String url = String.format("javascript:Jockey.triggerCallback(\"%d\")", messageId);
+    webView.load(url, null);
+  }
 }

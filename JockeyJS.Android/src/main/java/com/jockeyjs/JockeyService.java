@@ -22,96 +22,100 @@
  ******************************************************************************/
 package com.jockeyjs;
 
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
+import org.xwalk.core.XWalkResourceClient;
+import org.xwalk.core.XWalkView;
 
 public class JockeyService extends Service implements Jockey {
 
-	private final IBinder _binder = new JockeyBinder();
-	
-	private Jockey _jockeyImpl = JockeyImpl.getDefault();
-	
-	/**
-	 * Convenience method for binding to the JockeyService
-	 * 
-	 * @param context
-	 * @param connection
-	 */
-	public static boolean bind(Context context, ServiceConnection connection) {
-		return context.bindService(new Intent(context, JockeyService.class),
-				connection, Context.BIND_AUTO_CREATE);
-	}
+  private final IBinder _binder = new JockeyBinder();
 
-	public static void unbind(Context context, ServiceConnection connection) {
-		context.unbindService(connection);
-	}
+  private Jockey _jockeyImpl = null;
 
-	@Override
-	public IBinder onBind(Intent arg0) {
-		return _binder;
-	}
+  /**
+   * Convenience method for binding to the JockeyService
+   */
+  public static boolean bind (Context context, ServiceConnection connection) {
 
-	public class JockeyBinder extends Binder {
-	
-		public Jockey getService() {
-			return JockeyService.this;
-		}
-	}
+    return context.bindService(new Intent(context, JockeyService.class), connection, Context.BIND_AUTO_CREATE);
+  }
 
-	@Override
-	public void setOnValidateListener(OnValidateListener listener) {
-		_jockeyImpl.setOnValidateListener(listener);
-	}
+  public static void unbind (Context context, ServiceConnection connection) {
 
-	public void on(String type, JockeyHandler ... handler) {
-		_jockeyImpl.on(type, handler);
-	}
+    context.unbindService(connection);
+  }
 
-	@Override
-	public void off(String type) {
-		_jockeyImpl.off(type);
-	}
+  @Override public IBinder onBind (Intent arg0) {
 
-	public void send(String type, WebView toWebView) {
-		send(type, toWebView, null);
-	}
+    return _binder;
+  }
 
-	public void send(String type, WebView toWebView, Object withPayload) {
-		send(type, toWebView, withPayload, null);
-	}
+  @Override public void setOnValidateListener (OnValidateListener listener) {
 
-	public void send(String type, WebView toWebView, JockeyCallback complete) {
-		send(type, toWebView, null, complete);
-	}
+    _jockeyImpl.setOnValidateListener(listener);
+  }
 
-	public void send(String type, WebView toWebView, Object withPayload,
-			JockeyCallback complete) {
-		_jockeyImpl.send(type, toWebView, withPayload, complete);
-	}
+  @Override public void setXWalkViewClient (XWalkResourceClient client) {
 
-	public void triggerCallbackOnWebView(WebView webView, int messageId) {
-		_jockeyImpl.triggerCallbackOnWebView(webView, messageId);
-	}
+    _jockeyImpl.setXWalkViewClient(client);
+  }
 
-	public void configure(WebView webView) {
-		_jockeyImpl.configure(webView);
-	}
+  public void on (String type, JockeyHandler... handler) {
 
-	@Override
-	public boolean handles(String eventName) {
-		return _jockeyImpl.handles(eventName);
-	}
+    _jockeyImpl.on(type, handler);
+  }
 
-	public void setWebViewClient(WebViewClient client) {
-		_jockeyImpl.setWebViewClient(client);
-	}
+  @Override public void off (String type) {
 
+    _jockeyImpl.off(type);
+  }
+
+  public void send (String type, XWalkView toWebView) {
+
+    send(type, toWebView, null);
+  }
+
+  public void send (String type, XWalkView toWebView, Object withPayload) {
+
+    send(type, toWebView, withPayload, null);
+  }
+
+  public void send (String type, XWalkView toWebView, JockeyCallback complete) {
+
+    send(type, toWebView, null, complete);
+  }
+
+  public void send (String type, XWalkView toWebView, Object withPayload, JockeyCallback complete) {
+
+    _jockeyImpl.send(type, toWebView, withPayload, complete);
+  }
+
+  public void triggerCallbackOnXWalkView (XWalkView webView, int messageId) {
+
+    _jockeyImpl.triggerCallbackOnXWalkView(webView, messageId);
+  }
+
+  public void configure (XWalkView webView) {
+
+    _jockeyImpl = JockeyImpl.getDefault(webView);
+    _jockeyImpl.configure(webView);
+  }
+
+  @Override public boolean handles (String eventName) {
+
+    return _jockeyImpl.handles(eventName);
+  }
+
+  public class JockeyBinder extends Binder {
+
+    public Jockey getService () {
+
+      return JockeyService.this;
+    }
+  }
 }

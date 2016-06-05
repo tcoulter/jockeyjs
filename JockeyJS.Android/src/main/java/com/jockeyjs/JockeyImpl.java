@@ -22,144 +22,149 @@
  ******************************************************************************/
 package com.jockeyjs;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.util.SparseArray;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
 import com.jockeyjs.JockeyHandler.OnCompletedListener;
 import com.jockeyjs.util.ForwardingWebViewClient;
+import java.util.HashMap;
+import java.util.Map;
+import org.xwalk.core.XWalkResourceClient;
+import org.xwalk.core.XWalkView;
 
 public abstract class JockeyImpl implements Jockey {
 
-	// A default Callback that does nothing.
-	protected static final JockeyCallback _DEFAULT = new JockeyCallback() {
-		@Override
-		public void call() {
-		}
-	};
+  // A default Callback that does nothing.
+  protected static final JockeyCallback _DEFAULT = new JockeyCallback() {
 
-	private Map<String, CompositeJockeyHandler> _listeners = new HashMap<String, CompositeJockeyHandler>();
-	private SparseArray<JockeyCallback> _callbacks = new SparseArray<JockeyCallback>();
+    @Override public void call () {
 
-	private OnValidateListener _onValidateListener;
+    }
+  };
 
-	private Handler _handler = new Handler();
+  private Map<String, CompositeJockeyHandler> _listeners = new HashMap<String, CompositeJockeyHandler>();
 
-	private JockeyWebViewClient _client;
+  private SparseArray<JockeyCallback> _callbacks = new SparseArray<JockeyCallback>();
 
-	public JockeyImpl() {
-		_client = new JockeyWebViewClient(this);
-	}
+  private OnValidateListener _onValidateListener;
 
-	@Override
-	public void send(String type, WebView toWebView) {
-		send(type, toWebView, null);
-	}
+  private Handler _handler = new Handler();
 
-	@Override
-	public void send(String type, WebView toWebView, Object withPayload) {
-		send(type, toWebView, withPayload, null);
-	}
+  private JockeyWebViewClient _client;
 
-	@Override
-	public void send(String type, WebView toWebView, JockeyCallback complete) {
-		send(type, toWebView, null, complete);
+  public JockeyImpl (XWalkView view) {
 
-	}
+    _client = new JockeyWebViewClient(view, this);
+  }
 
-	@Override
-	public void on(String type, JockeyHandler... handler) {
+  public static Jockey getDefault (XWalkView view) {
 
-		if (!this.handles(type)) {
-			_listeners.put(type, new CompositeJockeyHandler());
-		}
+    return new DefaultJockeyImpl(view);
+  }
 
-		_listeners.get(type).add(handler);
-	}
+  @Override public void send (String type, XWalkView toWebView) {
 
-	@Override
-	public void off(String type) {
-		_listeners.remove(type);
-	}
+    send(type, toWebView, null);
+  }
 
-	@Override
-	public boolean handles(String eventName) {
-		return _listeners.containsKey(eventName);
-	}
+  @Override public void send (String type, XWalkView toWebView, Object withPayload) {
 
-	protected void add(int messageId, JockeyCallback callback) {
-		_callbacks.put(messageId, callback);
-	}
+    send(type, toWebView, withPayload, null);
+  }
 
-	protected void triggerEventFromWebView(final WebView webView,
-			JockeyWebViewPayload envelope) {
-		final int messageId = envelope.id;
-		String type = envelope.type;
+  @Override public void send (String type, XWalkView toWebView, JockeyCallback complete) {
 
-		if (this.handles(type)) {
-			JockeyHandler handler = _listeners.get(type);
+    send(type, toWebView, null, complete);
+  }
 
-			handler.perform(envelope.payload, new OnCompletedListener() {
-				@Override
-				public void onCompleted() {
-					// This has to be done with a handler because a webview load
-					// must be triggered
-					// in the UI thread
-					_handler.post(new Runnable() {
-						@Override
-						public void run() {
-							triggerCallbackOnWebView(webView, messageId);
-						}
-					});
-				}
-			});
-		}
-	}
+  @Override public void on (String type, JockeyHandler... handler) {
 
-	protected void triggerCallbackForMessage(int messageId) {
-		try {
-			JockeyCallback complete = _callbacks.get(messageId, _DEFAULT);
-			complete.call();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		_callbacks.remove(messageId);
-	}
+    if (!this.handles(type)) {
+      _listeners.put(type, new CompositeJockeyHandler());
+    }
 
-	public void validate(String host) throws HostValidationException {
-		if (_onValidateListener != null && !_onValidateListener.validate(host)) {
-			throw new HostValidationException();
-		}
-	}
+    _listeners.get(type).add(handler);
+  }
 
-	@Override
-	public void setOnValidateListener(OnValidateListener listener) {
-		_onValidateListener = listener;
-	}
+  @Override public void off (String type) {
 
-	@SuppressLint("SetJavaScriptEnabled")
-	@Override
-	public void configure(WebView webView) {
-		webView.getSettings().setJavaScriptEnabled(true);
-		webView.setWebViewClient(this.getWebViewClient());
-	}
+    _listeners.remove(type);
+  }
 
-	protected ForwardingWebViewClient getWebViewClient() {
-		return this._client;
-	}
+  @Override public boolean handles (String eventName) {
 
-	public static Jockey getDefault() {
-		return new DefaultJockeyImpl();
-	}
-	
-	@Override
-	public void setWebViewClient(WebViewClient client) {
-		this._client.setDelegate(client);
-	}
+    return _listeners.containsKey(eventName);
+  }
 
+  protected void add (int messageId, JockeyCallback callback) {
+
+    _callbacks.put(messageId, callback);
+  }
+
+  protected void triggerEventFromXWalkView (final XWalkView webView, JockeyWebViewPayload envelope) {
+
+    final int messageId = envelope.id;
+    String type = envelope.type;
+
+    if (this.handles(type)) {
+      JockeyHandler handler = _listeners.get(type);
+
+      handler.perform(type, envelope.payload, new OnCompletedListener() {
+
+        @Override public void onCompleted (String type) {
+          // This has to be done with a handler because a XWalkView load
+          // must be triggered
+          // in the UI thread
+          _handler.post(new Runnable() {
+
+            @Override public void run () {
+
+              triggerCallbackOnXWalkView(webView, messageId);
+            }
+          });
+        }
+      });
+    }
+  }
+
+  protected void triggerCallbackForMessage (int messageId) {
+
+    try {
+      JockeyCallback complete = _callbacks.get(messageId, _DEFAULT);
+      complete.call();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    _callbacks.remove(messageId);
+  }
+
+  public void validate (String host) throws HostValidationException {
+
+    if (_onValidateListener != null && !_onValidateListener.validate(host)) {
+      throw new HostValidationException();
+    }
+  }
+
+  @Override public void setOnValidateListener (OnValidateListener listener) {
+
+    _onValidateListener = listener;
+  }
+
+  @SuppressLint ("SetJavaScriptEnabled") @Override public void configure (XWalkView webView) {
+
+    _listeners.clear();
+    _callbacks.clear();
+
+    webView.setResourceClient(this.getWebViewClient());
+  }
+
+  protected ForwardingWebViewClient getWebViewClient () {
+
+    return this._client;
+  }
+
+  @Override public void setXWalkViewClient (XWalkResourceClient client) {
+
+    this._client.setDelegate(client);
+  }
 }
