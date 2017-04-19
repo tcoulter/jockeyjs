@@ -46,8 +46,13 @@
 
             // Alerts within JS callbacks will sometimes freeze the iOS app.
             // Let's wrap the callback in a timeout to prevent this.
-            setTimeout(function() {
+            setTimeout(function () {
                 dispatcher.callbacks[id]();
+                if (id in dispatcher.callbacks) {
+                    dispatcher.callbacks[id]();
+                } else {
+                    throw new Error('Callback with id ' + id + ' does not exist')
+                }
             }, 0);
         },
 
