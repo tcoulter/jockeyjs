@@ -11,7 +11,7 @@ Setup - iOS
 JockeyJS will help your iOS app communicate with a JavaScript application running inside a UIWebview.
 
 1. Download the latest JockeyJS into your iOS project directory.
-1. Add `JockeyJS/includes/Jockey.m` and `Jockey.h` to your project by right clicking inside XCode's Project Navigator and selecting "Add Files to \<YourProject\>"
+1. Add `JockeyJS/includes/Jockey.m` and `Jockey.h` to your project by right clicking inside Xcode's Project Navigator and selecting "Add Files to \<YourProject\>"
 1. In your web app, make sure to include `JockeyJS/js/jockey.js` as a script tag.
 1. Last, set your ViewController as the delegate of your UIWebView (`JockeyViewController` in the example code), then add the following method to your ViewController's `.m` file:
 
