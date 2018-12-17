@@ -31,28 +31,26 @@ public class CompositeJockeyHandler extends JockeyHandler {
 	private class AccumulatingListener implements OnCompletedListener {
 
 		private int _size;
-		private int _accumulated;
+		private AtomicInteger _accumulated;
+		private final OnCompletedListener _resultListener;
 
-		private AccumulatingListener() {
+		private AccumulatingListener(OnCompletedListener listener) {
 			this._size = _handlers.size();
-			this._accumulated = 0;
-		}
-		
-		@Override
-		public void onCompleted() {
-			++_accumulated;
-			
-			if (_accumulated >= _size)
-				completed(_listener);
+			this._accumulated = new AtomicInteger(0);
+			this._resultListener = listener;
 		}
 
+		@Override
+		public void onCompleted(String data) {
+			_accumulated.incrementAndGet();
+
+			if (_accumulated.get() >= _size) {
+				completed(_resultListener, data);
+      }
+		}
 	}
 
-	private OnCompletedListener _listener;
-	
 	private List<JockeyHandler> _handlers = new ArrayList<JockeyHandler>();
-	
-	private OnCompletedListener _accumulator;
 
 	public CompositeJockeyHandler(JockeyHandler ... handlers) {
 		add(handlers);
@@ -68,16 +66,13 @@ public class CompositeJockeyHandler extends JockeyHandler {
 	
 	@Override
 	public void perform(Map<Object, Object> payload, OnCompletedListener listener) {
-		this._listener = listener;
-		this._accumulator = new AccumulatingListener();
-		doPerform(payload);
+		for (JockeyHandler handler : _handlers) {
+			handler.perform(payload, new AccumulatingListener(listener));
+		}
 	}
 	
 	@Override
-	protected void doPerform(Map<Object, Object> payload) {
-		for (JockeyHandler handler : _handlers)
-			handler.perform(payload, this._accumulator);
-	}
+	protected void doPerform(Map<Object, Object> payload) {}
 	
 	public static JockeyHandler compose(JockeyHandler ... handlers) {
 		return new CompositeJockeyHandler(handlers);
